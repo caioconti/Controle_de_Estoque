@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import usf.model.basic.ModelBasic;
+import usf.model.fornecedor.FornecedorDAO;
 import usf.model.produto.Produto;
 import usf.model.produto.ProdutoDAO;
 
 public class ProdutoServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private ProdutoDAO produtoDAO = null;
+	private FornecedorDAO fornecedorDAO;
 	
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -81,7 +83,7 @@ public class ProdutoServlet extends HttpServlet{
 		
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoList.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoForm.jsp");
 			dispatcher.forward(request, response);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -92,7 +94,7 @@ public class ProdutoServlet extends HttpServlet{
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
 			ModelBasic existingProduto = produtoDAO.getRecord(id);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoList.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoForm.jsp");
 			request.setAttribute("produto", existingProduto);
 			dispatcher.forward(request, response);
 		} catch (IOException e) {
@@ -141,6 +143,17 @@ public class ProdutoServlet extends HttpServlet{
 			response.sendRedirect("list");
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void listFornecedores(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			List<ModelBasic> listFornecedores = fornecedorDAO.listAll();
+			request.setAttribute("listFornecedores", listFornecedores);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoForm.jsp");
+			dispatcher.forward(request, response);
+		} catch (Exception e) {
+			e.getMessage();
 		}
 	}
 }

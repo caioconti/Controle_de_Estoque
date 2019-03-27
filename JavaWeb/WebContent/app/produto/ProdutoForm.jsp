@@ -43,7 +43,7 @@
 <body>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-	    	<a class="navbar-link text-white btn btn-outline-primary" href="ProdutoList.jsp">Voltar</a>
+	    	<a class="navbar-link text-white btn btn-outline-primary" href="../produto/list">Voltar</a>
 	    </nav>
     </header>
 
@@ -58,10 +58,10 @@
 	            </c:if>
 	        </h3><br>
 			<c:if test="${produto != null}">
-				<form action="update" method="post">
+				<form action="<%=path%>/produto/update" method="post">
 			</c:if>
 			<c:if test="${produto == null}">
-				<form action="insert" method="post">
+				<form action="<%=path%>/produto/insert" method="post">
 			</c:if>
 				<c:if test="${produto != null}">
 					<input type="hidden" name="id" value="<c:out value='${produto.id}' />" />
@@ -83,8 +83,12 @@
 	                <input type="text" name="descricao" class="form-control" id="inputDescricao" placeholder="Descrição" value="<c:out value='${produto.descricao}' />" required />
 	            </div>
 	            <div class="form-group text-white">
-	                <label for="inputFornecedor">Fornecedor: </label>
-	                <input type="text" name="fornecedor" class="form-control" id="inputFornecedor" placeholder="Fornecedor" value="<c:out value='${produto.fornecedor}' />" required />
+	            	<label for="fornecedores">Fornecedor: </label>
+	            	<select class="form-control" name="fornecedor">
+	            		<c:forEach items="listFornecedores" var="fornecedor">
+	            			<option value="$fornecedor.id">${fornecedor}</option>
+	            		</c:forEach>		            			                             					
+					</select>
 	            </div>
 				<div class="form-group botoes text-white">
 	            	<button class="btn btn-success" type="submit">Inserir</button>

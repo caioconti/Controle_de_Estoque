@@ -5,7 +5,8 @@
 	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>Insert title here</title>
+	<title>CCSEstoque - Controle de Estoque</title>
+	<link rel="stylesheet" href="../../style.css">
 	<style>
 		body {
 			background: #9777da !important;
@@ -24,6 +25,13 @@
 			text-decoration: none;
 			color: white;
 		}
+		.botao-sair {
+			padding-left: 20px !important;
+			padding-right: 20px !important; 
+		}
+		.texto-centro {
+			text-align: center;
+		}
 	</style>
 </head>
 <%
@@ -33,13 +41,10 @@
 	<header>
          <nav class="navbar navbar-expand-lg bg-dark">
              <a class="navbar-brand text-white" href="home.jsp">Home</a>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                 <span class="navbar-toggler-icon"></span>
-             </button>
              <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                  <ul class="navbar-nav">
                  <li class="nav-item">
-                     <a class="nav-link text-white btn btn-danger" href="sair.php">Sair</a>
+                     <a class="nav-link text-white btn btn-danger botao-sair" href="#">Sair</a>
                  </li>
                  </ul>
              </div>

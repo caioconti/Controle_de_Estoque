@@ -4,8 +4,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>Insert title here</title>
+	<title>Fornecedores</title>
 	<style>
 		body {
 			background: #9777da;
@@ -13,6 +14,13 @@
 		.texto-centro {
 			text-align: center;
 		}
+		.botao {
+			margin-right: 10px;
+		}
+		.modelo-divs {
+    		padding: 0 20px;
+    		overflow: hidden;
+ 		}
 	</style>
 </head>
 <%
@@ -25,7 +33,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-white btn btn-primary" href="<%=path%>/fornecedor/new">Incluir Fornecedor</a>
+                    <a class="nav-link text-white btn btn-primary botao" href="<%=path%>/fornecedor/new">Incluir Fornecedor</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white btn btn-danger" href="#">Sair</a>
@@ -51,23 +59,35 @@
 				</thead>
 				<c:forEach var="fornecedor" items="${listFornecedor}">
 					<tr>
-						<td scope='row'><c:out value="${fornecedor.id}" /></td>
-						<td scope='row'><c:out value="${fornecedor.nome}" /></td>
-						<td scope='row'><c:out value="${fornecedor.telefone}" /></td>
-						<td scope='row'><c:out value="${fornecedor.email}" /></td>
-						<td scope='row'><c:out value="${fornecedor.cnpj}" /></td>
-						<td scope='row'><c:out value="${fornecedor.cidade}" /></td>
-						<td scope='row' align="center" class='texto-centro'><a href="../fornecedor/edit?id=<c:out value='${fornecedor.id}' />">Editar</a></td>
-						<td scope='row' align="center" class='texto-centro'><a href="../fornecedor/delete?id=<c:out value='${fornecedor.id}' />">Deletar</a></td>
+						<td scope='row' style="width:10px"><c:out value="${fornecedor.id}" /></td>
+						<td scope='row' style="width:300px"><c:out value="${fornecedor.nome}" /></td>
+						<td scope='row' style="width:130px"><c:out value="${fornecedor.telefone}" /></td>
+						<td scope='row' style="width:200px"><c:out value="${fornecedor.email}" /></td>
+						<td scope='row' style="width:150px"><c:out value="${fornecedor.cnpj}" /></td>
+						<td scope='row' style="width:150px"><c:out value="${fornecedor.cidade}" /></td>
+						<td scope='row' align="center" class='texto-centro' style="width:30px"><a href="../fornecedor/edit?id=<c:out value='${fornecedor.id}' />"><i class='material-icons' style='color: grey'>create</i></a></td>
+						<td scope='row' align="center" class='texto-centro' style="width:30px"><a href="../fornecedor/delete?id=<c:out value='${fornecedor.id}' />" data-confirm='Tem certeza que deseja excluir este item?'><i class='material-icons' style='color: red;'>remove_circle_outline</i></a></td>
 					</tr>
 				</c:forEach>
 			</table>
-		</div><br>
+		</div>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	
+	<script>
+	    $(document).ready(function(){
+	    	$('a[data-confirm]').click(function(ev){
+	        	var href = $(this).attr('href');
+	        	if(!$('#confirm-delete').length){
+	            	$('body').append('<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header bg-danger text-white">Excluir Item<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">Tem certeza que deseja excluir este item?</div><div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button><a class="bg-success btn text-white" id="dataConfirmOK">Excluir</a></div></div></div></div>');
+	        	}
+	        	$('#dataConfirmOK').attr('href', href);
+	        	$('#confirm-delete').modal({shown:true});
+	        return false;
+	    	});
+		});
+    </script>
 </body>
 </html>

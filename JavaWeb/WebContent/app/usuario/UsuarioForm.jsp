@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>Insert title here</title>
+	<meta charset="ISO-8859-1">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<title>CCSEstoque - Usu·rio</title>
 	<style>
 		body {
 			background: #9777da;
@@ -30,7 +30,7 @@
 		}
 		
 		.btn-cancelar {
-			color: white;			
+			color: white;
 		}
 	</style>
 </head>
@@ -40,63 +40,81 @@
 <body>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-	    	<a class="navbar-link text-white btn btn-outline-primary" href="../usuario/list">Voltar</a>
-	    </nav>
-    </header>
-    <div class="container"><br>
-		<div class="form-group text-white bg-dark"><br>
+			<a class="navbar-link text-white btn btn-outline-primary"
+				href="../usuario/list">Voltar</a>
+		</nav>
+	</header>
+	<div class="container">
+		<br>
+		<div class="form-group text-white bg-dark">
+			<br>
 			<h3>
 				<c:if test="${usuario != null}">
-	            	<p>Editar usu√°rio</p>
-	            </c:if>
+					<p>Editar usu·rio</p>
+				</c:if>
 				<c:if test="${usuario == null}">
-	                <p>Adicionar usu√°rio</p>
-	            </c:if>
-	        </h3><br>
+					<p>Adicionar usu·rio</p>
+				</c:if>
+			</h3>
+			<br>
 			<c:if test="${usuario != null}">
-            	<form action="<%=path%>/usuario/update" method="post">
-            </c:if>
+				<form action="<%=path%>/usuario/update" method="post">
+			</c:if>
 			<c:if test="${usuario == null}">
 				<form action="<%=path%>/usuario/insert" method="post">
-            </c:if>
-				<c:if test="${usuario != null}">
-					<input type="hidden" name="id" value="<c:out value='${usuario.id}' />" />
-				</c:if>
-				<div class="form-group text-white">
-	                <label for="inputNome">Nome:</label>
-	                <input type="text" name="nome" class="form-control" id="inputNome" placeholder="Nome" value="<c:out value='${usuario.nome}' />" required autofocus />
-	            </div>
-	            <div class="form-group text-white">
-	                <label for="inputTelefone">Telefone:</label>
-	                <input type="text" name="telefone" class="form-control" id="inputTelefone" placeholder="Telefone" value="<c:out value='${usuario.telefone}' />" required />
-	            </div>
-	            <div class="form-group text-white">
-	                <label for="inputEmail">Email:</label>
-	                <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" value="<c:out value='${usuario.email}' />" required />
-	            </div>
-	            <div class="form-group text-white">
-	                <label for="inputLogin">Login:</label>
-	                <input type="text" name="login" class="form-control" id="inputLogin" placeholder="Login" value="<c:out value='${usuario.login}' />" required />
-	            </div>
-	            <div class="form-group text-white">
-	                <label for="inputSenha">Senha:</label>
-	                <input type="password" name="senha" class="form-control" id="inputSenha" placeholder="Senha" value="<c:out value='${usuario.senha}' />" required />
-	            </div>
-	            <div class="form-group text-white">
-	                <label for="inputNivelAcesso">N√≠vel de Acesso:</label>
-	                <input type="text" name="nivelAcesso" class="form-control" id="inputNivelAcesso" placeholder="N√≠vel de Acesso" value="<c:out value='${usuario.nivelAcesso}' />" required />
-	            </div>
-	            <div class="form-group botoes text-white">
-	            	<button class="btn btn-success" type="submit">Inserir</button>
-	                <a class="btn btn-danger float-right" href='list'>Cancelar</a>
-	            </div>
+			</c:if>
+			<c:if test="${usuario != null}">
+				<input type="hidden" name="id"
+					value="<c:out value='${usuario.id}' />" />
+			</c:if>
+			<div class="form-group text-white">
+				<label for="inputNome">Nome:</label> <input type="text" name="nome"
+					class="form-control" id="inputNome" placeholder="Nome"
+					value="<c:out value='${usuario.nome}' />" required autofocus />
+			</div>
+			<div class="form-group text-white">
+				<label for="inputTelefone">Telefone:</label> <input type="text"
+					name="telefone" class="form-control" id="inputTelefone"
+					placeholder="Telefone"
+					value="<c:out value='${usuario.telefone}' />" required />
+			</div>
+			<div class="form-group text-white">
+				<label for="inputEmail">Email:</label> <input type="email"
+					name="email" class="form-control" id="inputEmail"
+					placeholder="Email" value="<c:out value='${usuario.email}' />"
+					required />
+			</div>
+			<div class="form-group text-white">
+				<label for="inputLogin">Login:</label> <input type="text"
+					name="login" class="form-control" id="inputLogin"
+					placeholder="Login" value="<c:out value='${usuario.login}' />"
+					required />
+			</div>
+			<div class="form-group text-white">
+				<label for="inputSenha">Senha:</label> <input type="password"
+					name="senha" class="form-control" id="inputSenha"
+					placeholder="Senha" value="<c:out value='${usuario.senha}' />"
+					required />
+			</div>
+			<div class="form-group text-white">
+				<label for="inputNivelAcesso">NÌvel de Acesso:</label> <input
+					type="text" name="nivelAcesso" class="form-control"
+					id="inputNivelAcesso" placeholder="NÌvel de Acesso"
+					value="<c:out value='${usuario.nivelAcesso}' />" required />
+			</div>
+			<div class="form-group botoes text-white">
+				<button class="btn btn-success" type="submit">Inserir</button>
+				<a class="btn btn-danger float-right" href='list'>Cancelar</a>
+			</div>
 			</form>
-		</div>	
+		</div>
 	</div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 </body>
 </html>

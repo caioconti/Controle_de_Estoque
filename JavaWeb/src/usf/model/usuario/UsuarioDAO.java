@@ -26,7 +26,7 @@ public class UsuarioDAO extends BasicDAO{
 		Usuario usuario = (Usuario) model;
 		
 		//Inserindo no banco de dados
-		String sql = "INSERT INTO usuario (nome, telefone, email, login, senha, nivelAcesso) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO usuario (nome, telefone, email, login, senha) VALUES (?, ?, ?, ?, ?)";
 		
 		//Conecatando com o banco de dados
 		connect();
@@ -37,7 +37,6 @@ public class UsuarioDAO extends BasicDAO{
 		statement.setString(3, usuario.getEmail());
 		statement.setString(4, usuario.getLogin());
 		statement.setString(5, usuario.getSenha());
-		statement.setString(6, usuario.getNivelAcesso());
 		
 		boolean rowInserted = statement.executeUpdate() > 0;
 		
@@ -67,10 +66,40 @@ public class UsuarioDAO extends BasicDAO{
 			String email = resultSet.getString("email");
 			String login = resultSet.getString("login");
 			String senha = resultSet.getString("senha");
-			String nivelAcesso = resultSet.getString("nivelAcesso");
 			
-			Usuario usuario = new Usuario(id, nome, telefone, email, login, senha, nivelAcesso);
+			Usuario usuario = new Usuario(id, nome, telefone, email, login, senha);
 			listUsuario.add(usuario);
+		}
+		
+		resultSet.close();
+		statement.close();
+		disconnect();
+		
+		return listUsuario;
+	}
+	
+	public List<ModelBasic> searchUsuario(String nome) throws SQLException {
+		List<ModelBasic> listUsuario = new ArrayList<>();
+		//Buscando produto pelo id
+		String sql = "SELECT * FROM usuario WHERE nome LIKE ? ";
+		//Conectando com o banco de dados
+		connect();
+		
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, '%' + nome + '%');
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String nomeRS = resultSet.getString("nome");
+			String telefone = resultSet.getString("telefone");
+			String email = resultSet.getString("email");
+			String login = resultSet.getString("login");
+			String senha = resultSet.getString("senha");
+			
+			Usuario Usuario = new Usuario(id, nomeRS, telefone, email, login, senha);
+			listUsuario.add(Usuario);
 		}
 		
 		resultSet.close();
@@ -105,7 +134,7 @@ public class UsuarioDAO extends BasicDAO{
 		Usuario usuario = (Usuario) model;
 		
 		//Atualizando usuario no banco pelo id
-		String sql = "UPDATE usuario SET nome = ?, telefone = ?, email = ?, login = ?, senha = ?, nivelAcesso = ?";
+		String sql = "UPDATE usuario SET nome = ?, telefone = ?, email = ?, login = ?, senha = ?";
 		sql += " WHERE id = ?";
 		
 		//Conectando com o banco de dados
@@ -117,7 +146,6 @@ public class UsuarioDAO extends BasicDAO{
 		statement.setString(3, usuario.getEmail());
 		statement.setString(4, usuario.getLogin());
 		statement.setString(5, usuario.getSenha());
-		statement.setString(6, usuario.getNivelAcesso());
 		statement.setInt(7, usuario.getId());
 		
 		boolean rowUpdated = statement.executeUpdate() > 0;
@@ -149,9 +177,8 @@ public class UsuarioDAO extends BasicDAO{
 			String email = resultSet.getString("email");
 			String login = resultSet.getString("login");
 			String senha = resultSet.getString("senha");
-			String nivelAcesso = resultSet.getString("nivelAcesso");
 			
-			usuario = new Usuario(id, nome, telefone, email, login, senha, nivelAcesso);
+			usuario = new Usuario(id, nome, telefone, email, login, senha);
 		}
 		
 		resultSet.close();

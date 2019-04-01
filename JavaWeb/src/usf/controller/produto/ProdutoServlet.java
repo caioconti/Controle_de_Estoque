@@ -11,14 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import usf.model.basic.ModelBasic;
-import usf.model.fornecedor.FornecedorDAO;
 import usf.model.produto.Produto;
 import usf.model.produto.ProdutoDAO;
 
 public class ProdutoServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private ProdutoDAO produtoDAO = null;
-	private FornecedorDAO fornecedorDAO;
 	
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -61,6 +59,9 @@ public class ProdutoServlet extends HttpServlet{
 			case "/list" :
 				listProduto(request, response);
 				break;
+			case "/search" :
+				searchProduto(request, response);
+				break;
 			default:
 				listProduto(request, response);
 				break;
@@ -73,6 +74,19 @@ public class ProdutoServlet extends HttpServlet{
 	private void listProduto(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
 			List<ModelBasic> listProduto = produtoDAO.listAll();
+			request.setAttribute("listProduto", listProduto);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoList.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void searchProduto(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			String nome = request.getParameter("procurar");
+			System.out.print(nome);
+			List<ModelBasic> listProduto = produtoDAO.searchProduto(nome);
 			request.setAttribute("listProduto", listProduto);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoList.jsp");
 			dispatcher.forward(request, response);
@@ -110,6 +124,8 @@ public class ProdutoServlet extends HttpServlet{
 			String descricao = request.getParameter("descricao");
 			String fornecedor = request.getParameter("fornecedor");
 			
+			System.out.print(nome + descricao + fornecedor);
+			
 			Produto newProduto = new Produto(nome, valor, quantidade, descricao, fornecedor);
 			produtoDAO.insert(newProduto);
 			response.sendRedirect("list");
@@ -143,17 +159,6 @@ public class ProdutoServlet extends HttpServlet{
 			response.sendRedirect("list");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	public void listFornecedores(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-		try {
-			List<ModelBasic> listFornecedores = fornecedorDAO.listAll();
-			request.setAttribute("listFornecedores", listFornecedores);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoForm.jsp");
-			dispatcher.forward(request, response);
-		} catch (Exception e) {
-			e.getMessage();
 		}
 	}
 }

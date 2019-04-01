@@ -25,17 +25,17 @@ public class ProdutoDAO extends BasicDAO{
 		Produto produto = (Produto) model;
 		
 		//Inserindo no banco de dados
-		String sql = "INSERT INT produto (nome, valorUnitario, quantidade, descricao, fornecedor) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO produto (nome, valor, quantidade, descricao, fornecedor) VALUES (?, ?, ?, ?, ?)";
 		
 		//Conectando com o banco de dados
 		connect();
 		
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setString(1, produto.getNome());
-		statement.setDouble(2, produto.getValorUnitario());
+		statement.setDouble(2, produto.getValor());
 		statement.setInt(3, produto.getQuantidade());
 		statement.setString(4, produto.getDescricao());
-		statement.setString(1, produto.getFornecedor());
+		statement.setString(5, produto.getFornecedor());
 		
 		boolean rowInserted = statement.executeUpdate() > 0;
 		
@@ -61,12 +61,43 @@ public class ProdutoDAO extends BasicDAO{
 		while (resultSet.next()) {
 			int id = resultSet.getInt("id");
 			String nome = resultSet.getString("nome");
-			double valorUnitario = resultSet.getDouble("valorUnitario");
+			double valor = resultSet.getDouble("valor");
 			int quantidade = resultSet.getInt("quantidade");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			Produto produto = new Produto(id, nome, valorUnitario, quantidade, descricao, fornecedor);
+			Produto produto = new Produto(id, nome, valor, quantidade, descricao, fornecedor);
+			listProduto.add(produto);
+		}
+		
+		resultSet.close();
+		statement.close();
+		disconnect();
+		
+		return listProduto;
+	}
+	
+	public List<ModelBasic> searchProduto(String nome) throws SQLException {
+		List<ModelBasic> listProduto = new ArrayList<>();
+		//Buscando produto pelo id
+		String sql = "SELECT * FROM produto WHERE nome LIKE ? ";
+		//Conectando com o banco de dados
+		connect();
+		
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, '%' + nome + '%');
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String nomeRS = resultSet.getString("nome");
+			double valor = resultSet.getDouble("valor");
+			int quantidade = resultSet.getInt("quantidade");
+			String descricao = resultSet.getString("descricao");
+			String fornecedor = resultSet.getString("fornecedor");
+			
+			Produto produto = new Produto(id, nomeRS, valor, quantidade, descricao, fornecedor);
 			listProduto.add(produto);
 		}
 		
@@ -102,7 +133,7 @@ public class ProdutoDAO extends BasicDAO{
 		Produto produto = (Produto) model;
 		
 		//Atualizando produto no banco pelo id
-		String sql = "UPDATE produto SET nome = ?, valorUnitario = ?, quantidade = ?, descricao = ?, fornecedor = ?";
+		String sql = "UPDATE produto SET nome = ?, valor = ?, quantidade = ?, descricao = ?, fornecedor = ?";
 		sql += " WHERE id = ?";
 		
 		//Conectando com o banco de dados
@@ -110,7 +141,7 @@ public class ProdutoDAO extends BasicDAO{
 		
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setString(1, produto.getNome());
-		statement.setDouble(2, produto.getValorUnitario());
+		statement.setDouble(2, produto.getValor());
 		statement.setInt(3, produto.getQuantidade());
 		statement.setString(4, produto.getDescricao());
 		statement.setString(5, produto.getFornecedor());
@@ -141,12 +172,12 @@ public class ProdutoDAO extends BasicDAO{
 		
 		if (resultSet.next()) {
 			String nome = resultSet.getString("nome");
-			double valorUnitario = resultSet.getDouble("valorUnitario");
+			double valor = resultSet.getDouble("valor");
 			int quantidade = resultSet.getInt("quantidade");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			produto = new Produto(id, nome, valorUnitario, quantidade, descricao, fornecedor);
+			produto = new Produto(id, nome, valor, quantidade, descricao, fornecedor);
 		}
 		
 		resultSet.close();

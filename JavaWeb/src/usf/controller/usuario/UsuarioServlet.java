@@ -62,6 +62,9 @@ public class UsuarioServlet extends HttpServlet{
 				break;
 			case "/list" :
 				listUsuario(request, response);
+				break;
+			case "/search" :
+				searchUsuario(request, response);
 				break;	
 			default:
 				listUsuario(request, response);
@@ -75,6 +78,18 @@ public class UsuarioServlet extends HttpServlet{
 	private void listUsuario(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
 			List<ModelBasic> listUsuario = usuarioDAO.listAll();
+			request.setAttribute("listUsuario", listUsuario);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/usuario/UsuarioList.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void searchUsuario(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			String nome = request.getParameter("procurar");
+			List<ModelBasic> listUsuario = usuarioDAO.searchUsuario(nome);
 			request.setAttribute("listUsuario", listUsuario);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/usuario/UsuarioList.jsp");
 			dispatcher.forward(request, response);
@@ -111,9 +126,8 @@ public class UsuarioServlet extends HttpServlet{
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
-			String nivelAcesso = request.getParameter("nivelAcesso");
 			
-			Usuario newUsuario = new Usuario(nome, telefone, email, login, senha, nivelAcesso);
+			Usuario newUsuario = new Usuario(nome, telefone, email, login, senha);
 			usuarioDAO.insert(newUsuario);
 			response.sendRedirect("list");
 		} catch (IOException e) {
@@ -129,9 +143,8 @@ public class UsuarioServlet extends HttpServlet{
 			String email = request.getParameter("email");
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
-			String nivelAcesso = request.getParameter("nivelAcesso");
 			
-			Usuario usuario = new Usuario(id, nome, telefone, email, login, senha, nivelAcesso);
+			Usuario usuario = new Usuario(id, nome, telefone, email, login, senha);
 			usuarioDAO.update(usuario);
 			response.sendRedirect("list");
 		} catch (IOException e) {

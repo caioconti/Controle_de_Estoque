@@ -2,7 +2,6 @@ package usf.controller.fornecedor;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -60,6 +59,9 @@ public class FornecedorServlet extends HttpServlet{
 			case "/list" :
 				listFornecedor(request, response);
 				break;
+			case "/search" :
+				searchFornecedor(request, response);
+				break;
 			default:
 				listFornecedor(request, response);
 				break;
@@ -72,6 +74,18 @@ public class FornecedorServlet extends HttpServlet{
 	private void listFornecedor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
 			List<ModelBasic> listFornecedor = fornecedorDAO.listAll();
+			request.setAttribute("listFornecedor", listFornecedor);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/fornecedor/FornecedorList.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void searchFornecedor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			String nome = request.getParameter("procurar");
+			List<ModelBasic> listFornecedor = fornecedorDAO.searchFornecedor(nome);
 			request.setAttribute("listFornecedor", listFornecedor);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/fornecedor/FornecedorList.jsp");
 			dispatcher.forward(request, response);

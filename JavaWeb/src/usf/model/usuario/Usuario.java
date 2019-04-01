@@ -9,7 +9,6 @@ public class Usuario implements ModelBasic{
 	protected String email;
 	protected String login;
 	protected String senha;
-	protected String nivelAcesso;
 	
 	public Usuario() {
 	}
@@ -18,17 +17,16 @@ public class Usuario implements ModelBasic{
 		this.id = id;
 	}
 
-	public Usuario(String nome, String telefone, String email, String login, String senha, String nivelAcesso) {
+	public Usuario(String nome, String telefone, String email, String login, String senha) {
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
 		this.login = login;
 		this.senha = senha;
-		this.nivelAcesso = nivelAcesso;
 	}
 
-	public Usuario(int id, String nome, String telefone, String email, String login, String senha, String nivelAcesso) {
-		this(nome, telefone, email, login, senha, nivelAcesso);
+	public Usuario(int id, String nome, String telefone, String email, String login, String senha) {
+		this(nome, telefone, email, login, senha);
 		this.id = id;
 	}
 
@@ -67,11 +65,5 @@ public class Usuario implements ModelBasic{
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-	public String getNivelAcesso() {
-		return nivelAcesso;
-	}
-	public void setNivelAcesso(String nivelAcesso) {
-		this.nivelAcesso = nivelAcesso;
 	}
 }

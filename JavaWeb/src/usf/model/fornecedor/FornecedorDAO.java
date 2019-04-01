@@ -10,7 +10,7 @@ import java.util.List;
 import usf.model.basic.BasicDAO;
 import usf.model.basic.ModelBasic;
 
-public class FornecedorDAO extends BasicDAO{
+public class FornecedorDAO extends BasicDAO {
 
 	public FornecedorDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super(jdbcURL, jdbcUsername, jdbcPassword);
@@ -67,6 +67,37 @@ public class FornecedorDAO extends BasicDAO{
 			String cidade = resultSet.getString("cidade");
 			
 			Fornecedor fornecedor = new Fornecedor(id, nome, telefone, email, cnpj, cidade);
+			listFornecedor.add(fornecedor);
+		}
+		
+		resultSet.close();
+		statement.close();
+		disconnect();
+		
+		return listFornecedor;
+	}
+	
+	public List<ModelBasic> searchFornecedor(String nome) throws SQLException {
+		List<ModelBasic> listFornecedor = new ArrayList<>();
+		//Buscando produto pelo id
+		String sql = "SELECT * FROM fornecedor WHERE nome LIKE ? ";
+		//Conectando com o banco de dados
+		connect();
+		
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, '%' + nome + '%');
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String nomeRS = resultSet.getString("nome");
+			String telefone = resultSet.getString("telefone");
+			String email = resultSet.getString("email");
+			String cnpj = resultSet.getString("cnpj");
+			String cidade = resultSet.getString("cidade");
+			
+			Fornecedor fornecedor = new Fornecedor(id, nomeRS, telefone, email, cnpj, cidade);
 			listFornecedor.add(fornecedor);
 		}
 		

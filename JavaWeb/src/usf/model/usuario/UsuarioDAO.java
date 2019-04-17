@@ -146,7 +146,7 @@ public class UsuarioDAO extends BasicDAO{
 		statement.setString(3, usuario.getEmail());
 		statement.setString(4, usuario.getLogin());
 		statement.setString(5, usuario.getSenha());
-		statement.setInt(7, usuario.getId());
+		statement.setInt(6, usuario.getId());
 		
 		boolean rowUpdated = statement.executeUpdate() > 0;
 		

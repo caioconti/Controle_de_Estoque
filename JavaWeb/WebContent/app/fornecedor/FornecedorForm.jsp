@@ -9,7 +9,7 @@
 	<title>CCSEstoque - Fornecedor</title>
 	<style>
 		body {
-			background: #f1f1f1;
+			background: #9777da;
 		}
 		
 		h3 {

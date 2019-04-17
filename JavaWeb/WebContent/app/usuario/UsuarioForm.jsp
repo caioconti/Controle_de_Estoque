@@ -96,12 +96,6 @@
 					placeholder="Senha" value="<c:out value='${usuario.senha}' />"
 					required />
 			</div>
-			<div class="form-group text-white">
-				<label for="inputNivelAcesso">Nível de Acesso:</label> <input
-					type="text" name="nivelAcesso" class="form-control"
-					id="inputNivelAcesso" placeholder="Nível de Acesso"
-					value="<c:out value='${usuario.nivelAcesso}' />" required />
-			</div>
 			<div class="form-group botoes text-white">
 				<button class="btn btn-success" type="submit">Inserir</button>
 				<a class="btn btn-danger float-right" href='list'>Cancelar</a>

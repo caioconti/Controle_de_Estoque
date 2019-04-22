@@ -68,7 +68,7 @@
 		</div>
 		<div class="row bloco">
 			<div class="col-4">
-				<a href="#"><div class="bg-dark">Estoque</div></a>
+				<a href="<%=path %>/estoque/list"><div class="bg-dark">Estoque</div></a>
 			</div>
 			<div class="col-4">
 				<a href="#"><div class="bg-dark">#</div></a>

@@ -25,17 +25,15 @@ public class ProdutoDAO extends BasicDAO{
 		Produto produto = (Produto) model;
 		
 		//Inserindo no banco de dados
-		String sql = "INSERT INTO produto (nome, valor, quantidade, descricao, fornecedor) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO produto (nome, descricao, fornecedor) VALUES (?, ?, ?)";
 		
 		//Conectando com o banco de dados
 		connect();
 		
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setString(1, produto.getNome());
-		statement.setDouble(2, produto.getValor());
-		statement.setInt(3, produto.getQuantidade());
-		statement.setString(4, produto.getDescricao());
-		statement.setString(5, produto.getFornecedor());
+		statement.setString(2, produto.getDescricao());
+		statement.setString(3, produto.getFornecedor());
 		
 		boolean rowInserted = statement.executeUpdate() > 0;
 		
@@ -61,12 +59,10 @@ public class ProdutoDAO extends BasicDAO{
 		while (resultSet.next()) {
 			int id = resultSet.getInt("id");
 			String nome = resultSet.getString("nome");
-			double valor = resultSet.getDouble("valor");
-			int quantidade = resultSet.getInt("quantidade");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			Produto produto = new Produto(id, nome, valor, quantidade, descricao, fornecedor);
+			Produto produto = new Produto(id, nome, descricao, fornecedor);
 			listProduto.add(produto);
 		}
 		
@@ -92,12 +88,10 @@ public class ProdutoDAO extends BasicDAO{
 		while (resultSet.next()) {
 			int id = resultSet.getInt("id");
 			String nomeRS = resultSet.getString("nome");
-			double valor = resultSet.getDouble("valor");
-			int quantidade = resultSet.getInt("quantidade");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			Produto produto = new Produto(id, nomeRS, valor, quantidade, descricao, fornecedor);
+			Produto produto = new Produto(id, nomeRS, descricao, fornecedor);
 			listProduto.add(produto);
 		}
 		
@@ -133,7 +127,7 @@ public class ProdutoDAO extends BasicDAO{
 		Produto produto = (Produto) model;
 		
 		//Atualizando produto no banco pelo id
-		String sql = "UPDATE produto SET nome = ?, valor = ?, quantidade = ?, descricao = ?, fornecedor = ?";
+		String sql = "UPDATE produto SET nome = ?, descricao = ?, fornecedor = ?";
 		sql += " WHERE id = ?";
 		
 		//Conectando com o banco de dados
@@ -141,11 +135,9 @@ public class ProdutoDAO extends BasicDAO{
 		
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 		statement.setString(1, produto.getNome());
-		statement.setDouble(2, produto.getValor());
-		statement.setInt(3, produto.getQuantidade());
-		statement.setString(4, produto.getDescricao());
-		statement.setString(5, produto.getFornecedor());
-		statement.setInt(6, produto.getId());
+		statement.setString(2, produto.getDescricao());
+		statement.setString(3, produto.getFornecedor());
+		statement.setInt(4, produto.getId());
 		
 		boolean rowUpdated = statement.executeUpdate() > 0;
 		
@@ -172,12 +164,10 @@ public class ProdutoDAO extends BasicDAO{
 		
 		if (resultSet.next()) {
 			String nome = resultSet.getString("nome");
-			double valor = resultSet.getDouble("valor");
-			int quantidade = resultSet.getInt("quantidade");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			produto = new Produto(id, nome, valor, quantidade, descricao, fornecedor);
+			produto = new Produto(id, nome, descricao, fornecedor);
 		}
 		
 		resultSet.close();

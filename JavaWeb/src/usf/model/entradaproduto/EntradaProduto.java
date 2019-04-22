@@ -19,8 +19,7 @@ public class EntradaProduto implements ModelBasic {
 		this.id = id;
 	}
 	
-	public EntradaProduto(String data, String usuario, String produto, String fornecedor, int quantidade,
-			double valorUnitario, double valorTotal) {
+	public EntradaProduto(String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
 		this.data = data;
 		this.usuario = usuario;
 		this.produto = produto;
@@ -30,9 +29,8 @@ public class EntradaProduto implements ModelBasic {
 		this.valorTotal = valorTotal;
 	}
 
-	public EntradaProduto(int id, String data, String usuario, String produto, String fornecedor, int quantidade,
-			double valorUnitario, double valorTotal) {
-		this(data, usuario, produto, fornecedor, quantidade, valorUnitario, valorTotal);
+	public EntradaProduto(int id, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
+		this(data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
 		this.id = id;
 		
 	}

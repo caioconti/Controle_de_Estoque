@@ -1,4 +1,4 @@
-package usf.controller.produto;
+package usf.controller.saidaproduto;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import usf.model.basic.ModelBasic;
-import usf.model.produto.Produto;
-import usf.model.produto.ProdutoDAO;
+import usf.model.saidaproduto.SaidaProduto;
+import usf.model.saidaproduto.SaidaProdutoDAO;
 
-public class ProdutoServlet extends HttpServlet{
+public class SaidaProdutoServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	private ProdutoDAO produtoDAO = null;
+	private SaidaProdutoDAO saidaProdutoDAO = null;
 	
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -24,7 +24,7 @@ public class ProdutoServlet extends HttpServlet{
 		String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
 		String jdbcDriver = getServletContext().getInitParameter("jdbcDriver");
 		
-		produtoDAO = new ProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+		saidaProdutoDAO = new SaidaProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -73,9 +73,9 @@ public class ProdutoServlet extends HttpServlet{
 		
 	private void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
-			List<ModelBasic> listProduto = produtoDAO.listAll();
-			request.setAttribute("listProduto", listProduto);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoList.jsp");
+			List<ModelBasic> listSaidaProduto = saidaProdutoDAO.listAll();
+			request.setAttribute("list", listSaidaProduto);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/MovimentacaoList.jsp");
 			dispatcher.forward(request, response);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -85,10 +85,9 @@ public class ProdutoServlet extends HttpServlet{
 	private void search(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
 			String nome = request.getParameter("procurar");
-			System.out.print(nome);
-			List<ModelBasic> listProduto = produtoDAO.searchProduto(nome);
-			request.setAttribute("listProduto", listProduto);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoList.jsp");
+			List<ModelBasic> listSaidaProduto = saidaProdutoDAO.search(nome);
+			request.setAttribute("listSaidaProduto", listSaidaProduto);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/EstoqueList.jsp");
 			dispatcher.forward(request, response);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -97,7 +96,7 @@ public class ProdutoServlet extends HttpServlet{
 		
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoForm.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/SaidaProdutoForm.jsp");
 			dispatcher.forward(request, response);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -107,9 +106,9 @@ public class ProdutoServlet extends HttpServlet{
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
-			ModelBasic existingProduto = produtoDAO.getRecord(id);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/produto/ProdutoForm.jsp");
-			request.setAttribute("produto", existingProduto);
+			ModelBasic existingSaidaProduto = saidaProdutoDAO.getRecord(id);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/SaidaProdutoForm.jsp");
+			request.setAttribute("saidaproduto", existingSaidaProduto);
 			dispatcher.forward(request, response);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -118,14 +117,16 @@ public class ProdutoServlet extends HttpServlet{
 		
 	private void insert(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
-			String nome = request.getParameter("nome");
-			String descricao = request.getParameter("descricao");
-			String fornecedor = request.getParameter("fornecedor");
+			String tipo = request.getParameter("tipo");
+			String data = request.getParameter("data");
+			int quantidade = Integer.parseInt(request.getParameter("quantidade"));
+			double valorUnitario = Double.parseDouble(request.getParameter("valorUnitario"));
+			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
+			String produto = request.getParameter("produto");
+			String usuario = request.getParameter("usuario");
 			
-			System.out.print(nome + descricao + fornecedor);
-			
-			Produto newProduto = new Produto(nome, descricao, fornecedor);
-			produtoDAO.insert(newProduto);
+			SaidaProduto newSaidaProduto = new SaidaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
+			saidaProdutoDAO.insert(newSaidaProduto);
 			response.sendRedirect("list");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -134,13 +135,16 @@ public class ProdutoServlet extends HttpServlet{
 		
 	private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
-			int id = Integer.parseInt(request.getParameter("id"));
-			String nome = request.getParameter("nome");
-			String descricao = request.getParameter("descricao");
-			String fornecedor = request.getParameter("fornecedor");
+			String tipo = request.getParameter("tipo");
+			String data = request.getParameter("data");
+			int quantidade = Integer.parseInt(request.getParameter("quantidade"));
+			double valorUnitario = Double.parseDouble(request.getParameter("valorUnitario"));
+			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
+			String produto = request.getParameter("produto");
+			String usuario = request.getParameter("usuario");
 			
-			Produto produto = new Produto(id, nome, descricao, fornecedor);
-			produtoDAO.update(produto);
+			SaidaProduto saidaProduto = new SaidaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
+			saidaProdutoDAO.update(saidaProduto);
 			response.sendRedirect("list");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -150,8 +154,8 @@ public class ProdutoServlet extends HttpServlet{
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
-			Produto produto = new Produto(id);
-			produtoDAO.delete(produto);
+			SaidaProduto saidaProduto = new SaidaProduto(id);
+			saidaProdutoDAO.delete(saidaProduto);
 			response.sendRedirect("list");
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -23,21 +23,22 @@ public class SaidaProdutoDAO extends BasicDAO{
 	@Override
 	public boolean insert(ModelBasic model) throws SQLException {
 		
-		SaidaProduto entradaProduto = (SaidaProduto) model;
+		SaidaProduto saidaproduto = (SaidaProduto) model;
 		
 		//Inserindo no banco de dados
-		String sql = "INSERT INTO saidaProduto (data, usuario, produto, quantidade, valorUnitario, valorTotal) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO movimentacao (tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		//Conecatando com o banco de dados
 		connect();
 		
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-		statement.setString(1, entradaProduto.getData());
-		statement.setString(2, entradaProduto.getUsuario());
-		statement.setString(3, entradaProduto.getProduto());
-		statement.setInt(4, entradaProduto.getQuantidade());
-		statement.setDouble(5, entradaProduto.getValorUnitario());
-		statement.setDouble(6, entradaProduto.getValorTotal());
+		statement.setString(1, saidaproduto.getTipo());
+		statement.setString(2, saidaproduto.getData());
+		statement.setString(3, saidaproduto.getProduto());
+		statement.setDouble(4, saidaproduto.getValorUnitario());
+		statement.setInt(5, saidaproduto.getQuantidade());
+		statement.setDouble(6, saidaproduto.getValorTotal());
+		statement.setString(7, saidaproduto.getUsuario());
 		
 		boolean rowInserted = statement.executeUpdate() > 0;
 		
@@ -53,7 +54,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 		List<ModelBasic> listSaidaProduto = new ArrayList<>();
 		
 		//Buscando tudo no banco de dados de entradaProduto
-		String sql = "SELECT * FROM saidaProduto";
+		String sql = "SELECT * FROM movimentacao";
 		
 		//Conectando com o banco de dados
 		connect();
@@ -62,7 +63,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 		ResultSet resultSet = statement.executeQuery(sql);
 		
 		while (resultSet.next()) {
-			int id = resultSet.getInt("id");
+			String tipo = resultSet.getString("tipo");
 			String data = resultSet.getString("data");
 			String usuario = resultSet.getString("usuario");
 			String produto = resultSet.getString("produto");
@@ -70,7 +71,40 @@ public class SaidaProdutoDAO extends BasicDAO{
 			double valorUnitario = resultSet.getDouble("valorUnitario");
 			double valorTotal = resultSet.getDouble("valorTotal");
 			
-			SaidaProduto saidaProduto = new SaidaProduto(id, data, usuario, produto, quantidade, valorUnitario, valorTotal);
+			SaidaProduto saidaProduto = new SaidaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
+			listSaidaProduto.add(saidaProduto);
+		}
+		
+		resultSet.close();
+		statement.close();
+		disconnect();
+		
+		return listSaidaProduto;
+	}
+	
+	public List<ModelBasic> search(String nome) throws SQLException {
+		List<ModelBasic> listSaidaProduto = new ArrayList<>();
+		//Buscando produto pelo id
+		String sql = "SELECT * FROM estoque WHERE nome LIKE ? ";
+		//Conectando com o banco de dados
+		connect();
+		
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, '%' + nome + '%');
+		
+		ResultSet resultSet = statement.executeQuery();
+		
+		while (resultSet.next()) {
+			int id = resultSet.getInt("id");
+			String tipo = resultSet.getString("tipo");
+			String data = resultSet.getString("data");
+			double valorUnitario = resultSet.getDouble("valorUnitario");
+			int quantidade = resultSet.getInt("quantidade");
+			double valorTotal = resultSet.getDouble("valorTotal");
+			String produto = resultSet.getString("produto");
+			String usuario = resultSet.getString("usuario");
+			
+			SaidaProduto saidaProduto = new SaidaProduto(id, tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
 			listSaidaProduto.add(saidaProduto);
 		}
 		
@@ -85,7 +119,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 	public boolean delete(ModelBasic saidaProduto) throws SQLException {
 		
 		//Deletando do banco pelo id de EntradaProduto
-		String sql = "DELETE FROM saidaProduto WHERE id = ?";
+		String sql = "DELETE FROM estoque WHERE id = ?";
 		
 		//Conectando com o banco de dados
 		connect();
@@ -108,20 +142,21 @@ public class SaidaProdutoDAO extends BasicDAO{
 		SaidaProduto saidaProduto = (SaidaProduto) model;
 		
 		//Atualizando EntradaProduto no banco pelo id
-		String sql = "UPDATE saidaProduto SET data = ?, usuario = ?, produto = ?, quantidade = ?, valorUnitario = ?, valorTotal = ?";
+		String sql = "UPDATE estoque SET tipo = ?, data = ?, produto = ?, valorUnitario = ?, quantidade = ?, valorTotal = ?, usuario = ?";
 		sql += " WHERE id = ?";
 		
 		//Conectando com o banco de dados
 		connect();
 		
 		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-		statement.setString(1, saidaProduto.getData());
-		statement.setString(2, saidaProduto.getUsuario());
+		statement.setString(1, saidaProduto.getTipo());
+		statement.setString(2, saidaProduto.getData());
 		statement.setString(3, saidaProduto.getProduto());
-		statement.setInt(4, saidaProduto.getQuantidade());
-		statement.setDouble(5, saidaProduto.getValorUnitario());
+		statement.setDouble(4, saidaProduto.getValorUnitario());
+		statement.setInt(5, saidaProduto.getQuantidade());
 		statement.setDouble(6, saidaProduto.getValorTotal());
-		statement.setInt(7, saidaProduto.getId());
+		statement.setString(7, saidaProduto.getUsuario());
+		statement.setInt(8, saidaProduto.getId());
 		
 		boolean rowUpdated = statement.executeUpdate() > 0;
 		
@@ -136,7 +171,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 		
 		SaidaProduto saidaProduto = null;
 		
-		String sql = "SELECT * FROM saidaProduto WHERE id = ?";
+		String sql = "SELECT * FROM estoque WHERE id = ?";
 		
 		connect();
 		
@@ -146,6 +181,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 		ResultSet resultSet = statement.executeQuery();
 		
 		if (resultSet.next()) {
+			String tipo = resultSet.getString("tipo");
 			String data = resultSet.getString("data");
 			String usuario = resultSet.getString("usuario");
 			String produto = resultSet.getString("produto");
@@ -153,7 +189,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 			double valorUnitario = resultSet.getDouble("valorUnitario");
 			double valorTotal = resultSet.getDouble("valorTotal");
 			
-			saidaProduto = new SaidaProduto(id, data, usuario, produto, quantidade, valorUnitario, valorTotal);
+			saidaProduto = new SaidaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
 		}
 		
 		resultSet.close();

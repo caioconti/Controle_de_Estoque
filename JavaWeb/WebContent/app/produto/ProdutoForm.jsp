@@ -67,24 +67,20 @@
 			<c:if test="${produto != null}">
 				<form action="<%=path%>/produto/update" method="post">
 			</c:if>
+			
 			<c:if test="${produto == null}">
 				<form action="<%=path%>/produto/insert" method="post">
 			</c:if>
+			
 			<c:if test="${produto != null}">
 				<input type="hidden" name="id" value="<c:out value='${produto.id}' />" />
 			</c:if>
+			
 			<div class="form-group text-white">
 				<label for="inputNome">Nome:</label> 
 				<input type="text" name="nome" class="form-control" id="inputNome" placeholder="Nome" value="<c:out value='${produto.nome}' />" required autofocus />
 			</div>
-			<div class="form-group text-white">
-				<label for="inputPreco">Preço(R$): </label> 
-				<input type="number"step="any" min="0" name="valor" class="form-control" id="inputPreco" placeholder="Preço" value="<c:out value='${produto.valor}' />" required />
-			</div>
-			<div class="form-group text-white">
-				<label for="inputQuantidade">Quantidade: </label> 
-				<input type="number" name="quantidade" class="form-control" id="inputQuantidade" placeholder="Quantidade" value="<c:out value='${produto.quantidade}' />" required />
-			</div>
+			
 			<div class="form-group text-white">
 				<label for="inputDescricao">Descrição: </label> 
 				<input type="text" name="descricao" class="form-control" id="inputDescricao" placeholder="Descrição" value="<c:out value='${produto.descricao}' />" required />

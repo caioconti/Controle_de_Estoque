@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import usf.model.basic.BasicDAO;
@@ -20,14 +22,15 @@ public class SaidaProdutoDAO extends BasicDAO{
 		super(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 	}
 
+
 	@Override
 	public boolean insert(ModelBasic model) throws SQLException {
 		
 		SaidaProduto saidaproduto = (SaidaProduto) model;
-		
+	
 		//Inserindo no banco de dados
-		String sql = "INSERT INTO movimentacao (tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
-		
+		String sql = "INSERT INTO movimentacao (tipo, data, produto, valorUnitario, quantidade, valorTotal) VALUES (?, ?, ?, ?, ?, ?)";
+
 		//Conecatando com o banco de dados
 		connect();
 		
@@ -38,10 +41,9 @@ public class SaidaProdutoDAO extends BasicDAO{
 		statement.setDouble(4, saidaproduto.getValorUnitario());
 		statement.setInt(5, saidaproduto.getQuantidade());
 		statement.setDouble(6, saidaproduto.getValorTotal());
-		statement.setString(7, saidaproduto.getUsuario());
 		
 		boolean rowInserted = statement.executeUpdate() > 0;
-		
+	
 		statement.close();
 		disconnect();
 		
@@ -64,14 +66,17 @@ public class SaidaProdutoDAO extends BasicDAO{
 		
 		while (resultSet.next()) {
 			String tipo = resultSet.getString("tipo");
-			String data = resultSet.getString("data");
+			Date data = resultSet.getDate("data");
 			String usuario = resultSet.getString("usuario");
 			String produto = resultSet.getString("produto");
 			int quantidade = resultSet.getInt("quantidade");
 			double valorUnitario = resultSet.getDouble("valorUnitario");
 			double valorTotal = resultSet.getDouble("valorTotal");
 			
-			SaidaProduto saidaProduto = new SaidaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
+			SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+			String dataFormatada = formatador.format(data);
+			
+			SaidaProduto saidaProduto = new SaidaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
 			listSaidaProduto.add(saidaProduto);
 		}
 		
@@ -119,7 +124,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 	public boolean delete(ModelBasic saidaProduto) throws SQLException {
 		
 		//Deletando do banco pelo id de EntradaProduto
-		String sql = "DELETE FROM estoque WHERE id = ?";
+		String sql = "DELETE FROM movimentacao WHERE id = ?";
 		
 		//Conectando com o banco de dados
 		connect();
@@ -142,7 +147,7 @@ public class SaidaProdutoDAO extends BasicDAO{
 		SaidaProduto saidaProduto = (SaidaProduto) model;
 		
 		//Atualizando EntradaProduto no banco pelo id
-		String sql = "UPDATE estoque SET tipo = ?, data = ?, produto = ?, valorUnitario = ?, quantidade = ?, valorTotal = ?, usuario = ?";
+		String sql = "UPDATE movimentacao SET tipo = ?, data = ?, produto = ?, valorUnitario = ?, quantidade = ?, valorTotal = ?, usuario = ?";
 		sql += " WHERE id = ?";
 		
 		//Conectando com o banco de dados

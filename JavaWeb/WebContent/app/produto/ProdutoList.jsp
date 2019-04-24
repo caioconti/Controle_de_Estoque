@@ -75,10 +75,7 @@
 			<table class='table table-hover table-dark table-bordered'>
 				<thead>
 					<tr>
-						<th scope='col'>ID</th>
 						<th scope='col'>Nome</th>
-						<th scope='col'>Valor Un</th>
-						<th scope='col'>Qntd</th>
 						<th scope='col'>Descricao</th>
 						<th scope='col'>Fornecedor</th>
 						<th scope='col' colspan="2" class='texto-centro'>Opções</th>
@@ -88,22 +85,13 @@
 
 				<c:forEach var="produto" items="${listProduto}">
 					<tr>
-						<td scope='row' style="width: 5px">
-							<c:out value="${produto.id}" />
-						</td>
-						<td scope='row' style="width: 150px">
+						<td scope='row' style="width: 200px">
 							<c:out value="${produto.nome}" />
 						</td>
-						<td scope='row' style="width: 50px">
-							<c:out value="${produto.valor}" />
-						</td>
-						<td scope='row' style="width: 50px">
-							<c:out value="${produto.quantidade}" />
-						</td>
-						<td scope='row' style="width: 150px">
+						<td scope='row' style="width: 200px">
 							<c:out value="${produto.descricao}" />
 						</td>
-						<td scope='row' style="width: 150px">
+						<td scope='row' style="width: 200px">
 							<c:out value="${produto.fornecedor}" />
 						</td>
 						<td scope='row' style="width: 30px" align="center" class='texto-centro'>

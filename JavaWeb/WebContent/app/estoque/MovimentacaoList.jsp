@@ -51,7 +51,7 @@
 						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/entradaproduto/new">Incluir Entrada</a>
 					</li>
 					<li>
-						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/saidaproduto/new">Incluir Saída</a>
+						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/new">Incluir Saída</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link text-white btn btn-danger" href="../home.jsp">Voltar</a>
@@ -78,7 +78,7 @@
 						<th scope='col' style="text-align: center">Data</th>
 						<th scope='col' style="text-align: center">Item</th>
 						<th scope='col' style="text-align: center">Valor UN</th>
-						<th scope='col' style="text-align: center">Quantidade</th>
+						<th scope='col' style="text-align: center">Qntd</th>
 						<th scope='col' style="text-align: center">Valor Total</th>
 						<th scope='col' style="text-align: center">Usuário</th>
 						
@@ -86,25 +86,25 @@
 				</thead>
 				<c:forEach var="list" items="${list}">
 					<tr>
-						<td scope='row' style="width: 100px; text-align: center">
+						<td scope='row' style="width: 70px; text-align: center">
 							<c:out value="${list.tipo}" />
 						</td>
-						<td scope='row' style="width: 100px; text-align: center">
+						<td scope='row' style="width: 70px; text-align: center">
 							<c:out value="${list.data}" />
 						</td>
-						<td scope='row' style="width: 100px; text-align: center">
+						<td scope='row' style="width: 150px; text-align: center">
 							<c:out value="${list.produto}" />
 						</td>
 						<td scope='row' style="width: 100px; text-align: center">
 							<c:out value="${list.valorUnitario}" />
 						</td>
-						<td scope='row' style="width: 100px; text-align: center">
+						<td scope='row' style="width: 50px; text-align: center">
 							<c:out value="${list.quantidade}" />
 						</td>
 						<td scope='row' style="width: 100px; text-align: center">
 							<c:out value="${list.valorTotal}" />
 						</td>
-						<td scope='row' style="width: 100px; text-align: center">
+						<td scope='row' style="width: 150px; text-align: center">
 							<c:out value="${list.usuario}" />
 						</td>
 					</tr>

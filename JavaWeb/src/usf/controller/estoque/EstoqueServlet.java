@@ -2,6 +2,8 @@ package usf.controller.estoque;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,11 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import usf.model.basic.ModelBasic;
+import usf.model.estoque.Estoque;
 import usf.model.estoque.EstoqueDAO;
+import usf.model.saidaproduto.SaidaProduto;
+import usf.model.saidaproduto.SaidaProdutoDAO;
 
 public class EstoqueServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private EstoqueDAO estoqueDAO = null;
+	private SaidaProdutoDAO saidaDAO = null;
 	
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -24,6 +30,7 @@ public class EstoqueServlet extends HttpServlet{
 		String jdbcDriver = getServletContext().getInitParameter("jdbcDriver");
 		
 		estoqueDAO = new EstoqueDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+		saidaDAO = new SaidaProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -40,11 +47,20 @@ public class EstoqueServlet extends HttpServlet{
 		
 		try {
 			switch (action) {
+			case "/new":
+				showNewForm(request, response);
+				break;
+			case "/insert":
+				insert(request, response);
+				break;
 			case "/list" :
 				list(request, response);
 				break;
 			case "/search" :
 				search(request, response);
+				break;
+			case "/movi" :
+				movi(request, response);
 				break;
 			default:
 				list(request, response);
@@ -65,6 +81,18 @@ public class EstoqueServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
+
+	private void movi(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			List<ModelBasic> listMovi = saidaDAO.listAll();
+			request.setAttribute("list", listMovi);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/MovimentacaoList.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
 	
 	private void search(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
@@ -77,4 +105,47 @@ public class EstoqueServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
+	
+	private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/EntradaProdutoForm.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void insert(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		try {
+			
+			String usuario = "Caio";
+			String tipo = "Entrada";
+			Date data = new Date();
+			
+			//Formatando a data para o MySQL aceitar
+			SimpleDateFormat formatador = new SimpleDateFormat("yyyy/MM/dd");
+			String dataFormatada = formatador.format(data);
+			
+			/*
+			 * 
+			 * chamar saidaProdutoDAO para inserir no bd de movimentacao 
+			 * 
+			 * */
+			
+			int quantidade = Integer.parseInt(request.getParameter("quantidade"));
+			double valorUnitario = Double.parseDouble(request.getParameter("valorUnitario"));
+			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
+			String produto = request.getParameter("produto");
+			
+			Estoque newEstoque = new Estoque(produto, valorUnitario, quantidade, valorTotal);
+			estoqueDAO.insert(newEstoque);
+			
+			SaidaProduto newSP = new SaidaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
+			saidaDAO.insert(newSP);
+			
+			response.sendRedirect("list");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}	
 }

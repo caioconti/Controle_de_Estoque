@@ -23,7 +23,7 @@ public class Estoque implements ModelBasic {
 		this.valorTotal = valorTotal;
 	}
 
-	public Estoque(int id, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
+	public Estoque(int id, String produto, double valorUnitario, int quantidade, double valorTotal) {
 		this(produto, valorUnitario, quantidade, valorTotal);
 		this.id = id;
 		

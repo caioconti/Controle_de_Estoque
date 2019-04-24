@@ -35,6 +35,15 @@ public class SaidaProduto implements ModelBasic {
 		
 	}
 
+	public SaidaProduto(String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal) {
+		this.tipo = tipo;
+		this.data = data;
+		this.produto = produto;
+		this.quantidade = quantidade;
+		this.valorUnitario = valorUnitario;
+		this.valorTotal = valorTotal;
+	}
+
 	public int getId() {
 		return id;
 	}

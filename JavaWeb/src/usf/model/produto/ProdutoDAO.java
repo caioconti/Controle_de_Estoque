@@ -57,12 +57,11 @@ public class ProdutoDAO extends BasicDAO{
 		ResultSet resultSet = statement.executeQuery(sql);
 		
 		while (resultSet.next()) {
-			int id = resultSet.getInt("id");
 			String nome = resultSet.getString("nome");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			Produto produto = new Produto(id, nome, descricao, fornecedor);
+			Produto produto = new Produto(nome, descricao, fornecedor);
 			listProduto.add(produto);
 		}
 		
@@ -86,12 +85,11 @@ public class ProdutoDAO extends BasicDAO{
 		ResultSet resultSet = statement.executeQuery();
 		
 		while (resultSet.next()) {
-			int id = resultSet.getInt("id");
 			String nomeRS = resultSet.getString("nome");
 			String descricao = resultSet.getString("descricao");
 			String fornecedor = resultSet.getString("fornecedor");
 			
-			Produto produto = new Produto(id, nomeRS, descricao, fornecedor);
+			Produto produto = new Produto(nomeRS, descricao, fornecedor);
 			listProduto.add(produto);
 		}
 		

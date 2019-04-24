@@ -4,6 +4,7 @@ import usf.model.basic.ModelBasic;
 
 public class EntradaProduto implements ModelBasic {
 	protected int id;
+	protected String tipo;
 	protected String data;
 	protected String usuario;
 	protected String produto;
@@ -19,7 +20,8 @@ public class EntradaProduto implements ModelBasic {
 		this.id = id;
 	}
 	
-	public EntradaProduto(String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
+	public EntradaProduto(String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
+		this.tipo = tipo;
 		this.data = data;
 		this.usuario = usuario;
 		this.produto = produto;
@@ -29,8 +31,8 @@ public class EntradaProduto implements ModelBasic {
 		this.valorTotal = valorTotal;
 	}
 
-	public EntradaProduto(int id, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
-		this(data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
+	public EntradaProduto(int id, String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
+		this(tipo, data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
 		this.id = id;
 		
 	}
@@ -41,30 +43,35 @@ public class EntradaProduto implements ModelBasic {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getData() {
 		return data;
 	}
 	public void setData(String data) {
 		this.data = data;
 	}
+	
 	public String getUsuario() {
 		return usuario;
 	}
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
+	
 	public String getProduto() {
 		return produto;
 	}
 	public void setProduto(String produto) {
 		this.produto = produto;
 	}
+	
 	public String getFornecedor() {
 		return fornecedor;
 	}
 	public void setFornecedor(String fornecedor) {
 		this.fornecedor = fornecedor;
 	}
+	
 	public int getQuantidade() {
 		return quantidade;
 	}
@@ -77,10 +84,18 @@ public class EntradaProduto implements ModelBasic {
 	public void setValorUnitario(double valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
+	
 	public double getValorTotal() {
 		return valorTotal;
 	}
 	public void setValorTotal(double valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 }

@@ -48,10 +48,10 @@
 			<div class="collapse navbar-collapse justify-content-end">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/new">Incluir Entrada</a>
+						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/newEntrada">Incluir Entrada</a>
 					</li>
 					<li>
-						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/new">Incluir Saída</a>
+						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/newSaida">Incluir Saída</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link text-white btn btn-danger" href="../home.jsp">Voltar</a>
@@ -76,8 +76,6 @@
 					<tr>
 						<th scope='col'>Item</th>
 						<th scope='col' style="text-align: center">Quantidade</th>
-						<th scope='col' style="text-align: center">Valor UN</th>
-						<th scope='col' style="text-align: center">Valor Total</th>
 					</tr>
 				</thead>
 				<c:forEach var="list" items="${list}">
@@ -87,12 +85,6 @@
 						</td>
 						<td scope='row' style="width: 100px; text-align: center">
 							<c:out value="${list.quantidade}" />
-						</td>
-						<td scope='row' style="width: 100px; text-align: center">
-							R$ <c:out value="${list.valorUnitario}" />
-						</td>
-						<td scope='row' style="width: 100px; text-align: center">
-							R$ <c:out value="${list.valorTotal}" />
 						</td>
 					</tr>
 				</c:forEach>

@@ -4,11 +4,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import usf.model.basic.BasicDAO;
 import usf.model.basic.ModelBasic;
+import usf.model.estoque.Estoque;
 
 public class EntradaProdutoDAO extends BasicDAO{
 	
@@ -20,32 +23,113 @@ public class EntradaProdutoDAO extends BasicDAO{
 		super(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 	}
 
+	public Estoque dadosEstoque(String produto) throws SQLException {
+		
+		Estoque produtoEncontrado = null;
+		
+		String sql = "SELECT * FROM estoque WHERE produto = ?";
+		connect();
+		
+		PreparedStatement st = jdbcConnection.prepareStatement(sql);
+		st.setString(1, produto);
+		
+		ResultSet rs = st.executeQuery();
+		
+		if (rs.next()) {
+			String item = rs.getString("produto");
+			int quantidade = rs.getInt("quantidade");
+			
+			produtoEncontrado = new Estoque(item, quantidade);
+			
+		}
+		
+		rs.close();
+		st.close();
+		disconnect();
+		
+		return produtoEncontrado;
+		
+	}
+	
 	@Override
 	public boolean insert(ModelBasic model) throws SQLException {
-		EntradaProduto entradaProduto = (EntradaProduto) model;
 		
-		//Inserindo no banco de dados
-		String sql = "INSERT INTO movimentacao (tipo, data, produto, valorUnitario, quantidade,  valorTotal, fornecedor, usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		EntradaProduto entradaProduto = (EntradaProduto) model;
+		Estoque produtoEstoque = dadosEstoque(entradaProduto.getProduto());
 		
 		//Conecatando com o banco de dados
 		connect();
 		
-		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-		statement.setString(1, entradaProduto.getTipo());
-		statement.setString(2, entradaProduto.getData());
-		statement.setString(3, entradaProduto.getProduto());
-		statement.setDouble(4, entradaProduto.getValorUnitario());
-		statement.setInt(5, entradaProduto.getQuantidade());
-		statement.setDouble(6, entradaProduto.getValorTotal());
-		statement.setString(7, entradaProduto.getFornecedor());
-		statement.setString(8, entradaProduto.getUsuario());
-		
-		boolean rowInserted = statement.executeUpdate() > 0;
-		
-		statement.close();
-		disconnect();
-		
-		return rowInserted;
+		if (produtoEstoque != null) {
+			
+			//Quantidade que vai ser atualizada para o  BD estoque
+			int attQuantidadeEstoque = produtoEstoque.getQuantidade() + entradaProduto.getQuantidade();
+			
+			//Inserindo os dados da venda no BD de movimentação
+			String sql = "INSERT INTO movimentacao (tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario) VALUES (?, ?, ?, ?, ?, ?, ?);";
+			
+			PreparedStatement st = jdbcConnection.prepareStatement(sql);
+			st.setString(1, entradaProduto.getTipo());
+			st.setString(2, entradaProduto.getData());
+			st.setString(3, entradaProduto.getProduto());
+			st.setDouble(4, entradaProduto.getValorUnitario());
+			st.setInt(5, entradaProduto.getQuantidade());
+			st.setDouble(6, entradaProduto.getValorTotal());
+			st.setString(7, entradaProduto.getUsuario());
+			
+			if (st.executeUpdate() > 0) {
+				
+				//Atualizando a quantidade do produto no BD estoque
+				String sql2 = "UPDATE estoque SET quantidade = ? WHERE produto = ?";	
+				
+				st = jdbcConnection.prepareStatement(sql2);
+				st.setInt(1, attQuantidadeEstoque);
+				st.setString(2, entradaProduto.getProduto());
+				
+			}
+			
+			boolean rowInserted = st.executeUpdate() > 0;
+			
+			st.close();
+			disconnect();
+			
+			return rowInserted;
+			
+		} else {
+			
+			//Inserindo os dados da venda no BD de movimentação
+			String sql = "INSERT INTO movimentacao (tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			
+			PreparedStatement st = jdbcConnection.prepareStatement(sql);
+			
+			st.setString(1, entradaProduto.getTipo());
+			st.setString(2, entradaProduto.getData());
+			st.setString(3, entradaProduto.getProduto());
+			st.setDouble(4, entradaProduto.getValorUnitario());
+			st.setInt(5, entradaProduto.getQuantidade());
+			st.setDouble(6, entradaProduto.getValorTotal());
+			st.setString(7, entradaProduto.getUsuario());
+			
+			if (st.executeUpdate() > 0) {
+				
+				//Inserindo no estoque o produto e a quantidade
+				String sql2 = "INSERT INTO estoque (produto, quantidade) VALUES(?, ?)";
+				
+				st = jdbcConnection.prepareStatement(sql2);
+				st.setString(1, entradaProduto.getProduto());
+				st.setInt(2, entradaProduto.getQuantidade());
+				
+			}
+			
+			boolean rowInserted = st.executeUpdate() > 0;
+			
+			st.close();
+			disconnect();
+			
+			return rowInserted;
+			
+		}
+
 	}
 
 	@Override
@@ -63,15 +147,17 @@ public class EntradaProdutoDAO extends BasicDAO{
 		
 		while (resultSet.next()) {
 			String tipo = resultSet.getString("tipo");
-			String data = resultSet.getString("data");
+			Date data = resultSet.getDate("data");
 			double valorUnitario = resultSet.getDouble("valorUnitario");
 			int quantidade = resultSet.getInt("quantidade");
 			double valorTotal = resultSet.getDouble("valorTotal");
 			String produto = resultSet.getString("produto");
-			String fornecedor = resultSet.getString("fornecedor");
 			String usuario = resultSet.getString("usuario");
 			
-			EntradaProduto entradaProduto = new EntradaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
+			SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+			String dataFormatada = formatador.format(data);
+			
+			EntradaProduto entradaProduto = new EntradaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
 			listEntradaProduto.add(entradaProduto);
 		}
 		
@@ -101,10 +187,9 @@ public class EntradaProdutoDAO extends BasicDAO{
 			int quantidade = resultSet.getInt("quantidade");
 			double valorTotal = resultSet.getDouble("valorTotal");
 			String produto = resultSet.getString("produto");
-			String fornecedor = resultSet.getString("fornecedor");
 			String usuario = resultSet.getString("usuario");
 			
-			EntradaProduto entradaProduto = new EntradaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
+			EntradaProduto entradaProduto = new EntradaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
 			listEntradaProduto.add(entradaProduto);
 		}
 		
@@ -140,7 +225,7 @@ public class EntradaProdutoDAO extends BasicDAO{
 		EntradaProduto entradaProduto = (EntradaProduto) model;
 		
 		//Atualizando EntradaProduto no banco pelo id
-		String sql = "UPDATE movimentacao SET tipo = ?, data = ?, produto = ?, valorUnitario = ?, quantidade = ?, valorTotal = ?, fornecedor = ?, usuario = ?";
+		String sql = "UPDATE movimentacao SET tipo = ?, data = ?, produto = ?, valorUnitario = ?, quantidade = ?, valorTotal = ?, usuario = ?";
 		sql += " WHERE id = ?";
 		
 		//Conectando com o banco de dados
@@ -151,11 +236,10 @@ public class EntradaProdutoDAO extends BasicDAO{
 		statement.setString(2, entradaProduto.getData());
 		statement.setString(3, entradaProduto.getUsuario());
 		statement.setString(4, entradaProduto.getProduto());
-		statement.setString(5, entradaProduto.getFornecedor());
-		statement.setInt(6, entradaProduto.getQuantidade());
-		statement.setDouble(7, entradaProduto.getValorUnitario());
-		statement.setDouble(8, entradaProduto.getValorTotal());
-		statement.setInt(9, entradaProduto.getId());
+		statement.setInt(5, entradaProduto.getQuantidade());
+		statement.setDouble(6, entradaProduto.getValorUnitario());
+		statement.setDouble(7, entradaProduto.getValorTotal());
+		statement.setInt(8, entradaProduto.getId());
 		
 		boolean rowUpdated = statement.executeUpdate() > 0;
 		
@@ -183,12 +267,11 @@ public class EntradaProdutoDAO extends BasicDAO{
 			String data = resultSet.getString("data");
 			String usuario = resultSet.getString("usuario");
 			String produto = resultSet.getString("produto");
-			String fornecedor = resultSet.getString("fornecedor");
 			int quantidade = resultSet.getInt("quantidade");
 			double valorUnitario = resultSet.getDouble("valorUnitario");
 			double valorTotal = resultSet.getDouble("valorTotal");
 			
-			entradaProduto = new EntradaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
+			entradaProduto = new EntradaProduto(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
 		}
 		
 		resultSet.close();

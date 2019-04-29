@@ -72,51 +72,64 @@
 				<form action="<%=path%>/produto/insert" method="post">
 			</c:if>
 			
-			<c:if test="${produto != null}">
-				<input type="hidden" name="id" value="<c:out value='${produto.id}' />" />
-			</c:if>
+				<c:if test="${produto != null}">
+					<input type="hidden" name="id" value="<c:out value='${produto.id}' />" />
+				</c:if>
+				
+				<div class="form-group text-white">
+					<label for="inputNome">Nome:</label> 
+					<input type="text" name="nome" class="form-control" id="inputNome" placeholder="Nome" value="<c:out value='${produto.nome}' />" required autofocus />
+				</div>
+				
+				<div class="form-group text-white">
+					<label for="inputCompra">Valor de Compra: </label> 
+					<input type="number" step="any" min="0" name="valorCompra" class="form-control" id="inputCompra" placeholder="Valor unitário de compra" value="<c:out value='${produto.valorCompra}' />" required />
+				</div>
+				
+				<div class="form-group text-white">
+					<label for="inputVenda">Valor de Venda: </label> 
+					<input type="number" step="any" min="0" name="valorVenda" class="form-control" id="inputVenda" placeholder="Valor unitário de venda" value="<c:out value='${produto.valorVenda}' />" required />
+				</div>
+				
+				<div class="form-group text-white">
+					<label for="inputDescricao">Descrição: </label> 
+					<input type="text" name="descricao" class="form-control" id="inputDescricao" placeholder="Descrição" value="<c:out value='${produto.descricao}' />" required />
+				</div>
+				
+				<div class="form-group text-white">
+					<label for="fornecedores">Fornecedor: </label>
+					<select class="form-control" name="fornecedor">
+						<c:if test="${produto != null}">
+							<option><c:out value='${produto.fornecedor}' /></option>
+						</c:if>
+						<c:if test="${produto == null}">
+							<option value="0">SELECIONE O FORNECEDOR</option>
+						</c:if>
+						<%
+							String jdbcURL = getServletContext().getInitParameter("jdbcURL");
+							String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
+							String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
+							String jdbcDriver = getServletContext().getInitParameter("jdbcDriver");
+		
+							FornecedorDAO fornecedorDAO = new FornecedorDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+							List<ModelBasic> listFornecedor = fornecedorDAO.listAll();
+							for (int i = 0; i < listFornecedor.size(); i++) {
+								String nome = ((Fornecedor)listFornecedor.get(i)).getNome();
+						%>	
+							<option value="<%=nome%>"><%=nome%></option>
+						<%
+							}
+							
+							request.getAttribute("");
+						%>
+					</select>
+				</div>
+				
+				<div class="form-group botoes text-white">
+					<button class="btn btn-success" type="submit">Inserir</button>
+					<a class="btn btn-danger float-right" href='list' role="button">Cancelar</a>
+				</div>
 			
-			<div class="form-group text-white">
-				<label for="inputNome">Nome:</label> 
-				<input type="text" name="nome" class="form-control" id="inputNome" placeholder="Nome" value="<c:out value='${produto.nome}' />" required autofocus />
-			</div>
-			
-			<div class="form-group text-white">
-				<label for="inputDescricao">Descrição: </label> 
-				<input type="text" name="descricao" class="form-control" id="inputDescricao" placeholder="Descrição" value="<c:out value='${produto.descricao}' />" required />
-			</div>
-			<div class="form-group text-white">
-				<label for="fornecedores">Fornecedor: </label>
-				<select class="form-control" name="fornecedor">
-					<c:if test="${produto != null}">
-						<option><c:out value='${produto.fornecedor}' /></option>
-					</c:if>
-					<c:if test="${produto == null}">
-						<option value="0">SELECIONE O FORNECEDOR</option>
-					</c:if>
-					<%
-						String jdbcURL = getServletContext().getInitParameter("jdbcURL");
-						String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
-						String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
-						String jdbcDriver = getServletContext().getInitParameter("jdbcDriver");
-	
-						FornecedorDAO fornecedorDAO = new FornecedorDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
-						List<ModelBasic> listFornecedor = fornecedorDAO.listAll();
-						for (int i = 0; i < listFornecedor.size(); i++) {
-							String nome = ((Fornecedor)listFornecedor.get(i)).getNome();
-					%>	
-						<option value="<%=nome%>"><%=nome%></option>
-					<%
-						}
-						
-						request.getAttribute("");
-					%>
-				</select>
-			</div>
-			<div class="form-group botoes text-white">
-				<button class="btn btn-success" type="submit">Inserir</button>
-				<a class="btn btn-danger float-right" href='list' role="button">Cancelar</a>
-			</div>
 			</form>
 		</div>
 	</div>

@@ -3,6 +3,7 @@ package usf.model.usuario;
 import usf.model.basic.ModelBasic;
 
 public class Usuario implements ModelBasic{
+	
 	protected int id;
 	protected String nome;
 	protected String telefone;

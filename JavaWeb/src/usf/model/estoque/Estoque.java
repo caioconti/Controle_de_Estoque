@@ -3,11 +3,10 @@ package usf.model.estoque;
 import usf.model.basic.ModelBasic;
 
 public class Estoque implements ModelBasic {
+	
 	protected int id;
 	protected String produto;
 	protected int quantidade;
-	protected double valorUnitario;
-	protected double valorTotal;
 	
 	public Estoque() {
 	}
@@ -16,15 +15,13 @@ public class Estoque implements ModelBasic {
 		this.id = id;
 	}
 	
-	public Estoque(String produto, double valorUnitario, int quantidade, double valorTotal) {
+	public Estoque(String produto, int quantidade) {
 		this.produto = produto;
 		this.quantidade = quantidade;
-		this.valorUnitario = valorUnitario;
-		this.valorTotal = valorTotal;
 	}
 
-	public Estoque(int id, String produto, double valorUnitario, int quantidade, double valorTotal) {
-		this(produto, valorUnitario, quantidade, valorTotal);
+	public Estoque(int id, String produto, int quantidade) {
+		this(produto, quantidade);
 		this.id = id;
 		
 	}
@@ -49,18 +46,5 @@ public class Estoque implements ModelBasic {
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
-	
-	public double getValorUnitario() {
-		return valorUnitario;
-	}
-	public void setValorUnitario(double valorUnitario) {
-		this.valorUnitario = valorUnitario;
-	}
-	
-	public double getValorTotal() {
-		return valorTotal;
-	}
-	public void setValorTotal(double valorTotal) {
-		this.valorTotal = valorTotal;
-	}
+
 }

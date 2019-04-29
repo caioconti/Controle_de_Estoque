@@ -3,8 +3,11 @@ package usf.model.produto;
 import usf.model.basic.ModelBasic;
 
 public class Produto implements ModelBasic{
+	
 	protected int id;
 	protected String nome;
+	protected double valorCompra;
+	protected double valorVenda;
 	protected String descricao;
 	protected String fornecedor;
 	
@@ -15,14 +18,16 @@ public class Produto implements ModelBasic{
 		this.id = id;
 	}
 	
-	public Produto(String nome, String descricao, String fornecedor) {
+	public Produto(String nome, double valorCompra, double valorVenda, String descricao, String fornecedor) {
 		this.nome = nome;
+		this.valorCompra = valorCompra;
+		this.valorVenda = valorVenda;
 		this.descricao = descricao;
 		this.fornecedor = fornecedor;
 	}
 	
-	public Produto(int id, String nome, String descricao, String fornecedor) {
-		this(nome, descricao, fornecedor);
+	public Produto(int id, String nome, double valorCompra, double valorVenda, String descricao, String fornecedor) {
+		this(nome, valorCompra, valorVenda, descricao, fornecedor);
 		this.id = id;
 	}
 	
@@ -40,6 +45,22 @@ public class Produto implements ModelBasic{
 		this.nome = nome;
 	}
 	
+	public double getValorCompra() {
+		return valorCompra;
+	}
+
+	public void setValorCompra(double valorCompra) {
+		this.valorCompra = valorCompra;
+	}
+
+	public double getValorVenda() {
+		return valorVenda;
+	}
+
+	public void setValorVenda(double valorVenda) {
+		this.valorVenda = valorVenda;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}

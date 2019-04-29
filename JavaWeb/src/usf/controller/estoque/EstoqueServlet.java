@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import usf.model.basic.ModelBasic;
+import usf.model.entradaproduto.EntradaProduto;
+import usf.model.entradaproduto.EntradaProdutoDAO;
 import usf.model.estoque.Estoque;
 import usf.model.estoque.EstoqueDAO;
 import usf.model.saidaproduto.SaidaProduto;
@@ -22,6 +24,7 @@ public class EstoqueServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private EstoqueDAO estoqueDAO = null;
 	private SaidaProdutoDAO saidaDAO = null;
+	private EntradaProdutoDAO entradaDAO = null;
 	
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -31,6 +34,7 @@ public class EstoqueServlet extends HttpServlet{
 		
 		estoqueDAO = new EstoqueDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 		saidaDAO = new SaidaProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+		entradaDAO = new EntradaProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -47,11 +51,17 @@ public class EstoqueServlet extends HttpServlet{
 		
 		try {
 			switch (action) {
-			case "/new":
-				showNewForm(request, response);
+			case "/newEntrada":
+				showNewFormEntrada(request, response);
 				break;
-			case "/insert":
-				insert(request, response);
+			case "/newSaida":
+				showNewFormSaida(request, response);
+				break;	
+			case "/insertentrada":
+				insertEntrada(request, response);
+				break;
+			case "/insertsaida":
+				insertSaida(request, response);
 				break;
 			case "/list" :
 				list(request, response);
@@ -106,7 +116,7 @@ public class EstoqueServlet extends HttpServlet{
 		}
 	}
 	
-	private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+	private void showNewFormEntrada(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
 		try {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/EntradaProdutoForm.jsp");
 			dispatcher.forward(request, response);
@@ -114,8 +124,17 @@ public class EstoqueServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
+
+	private void showNewFormSaida(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+		try {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/app/estoque/SaidaProdutoForm.jsp");
+			dispatcher.forward(request, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}	
 	
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void insertEntrada(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
 			
 			String usuario = "Caio";
@@ -126,24 +145,42 @@ public class EstoqueServlet extends HttpServlet{
 			SimpleDateFormat formatador = new SimpleDateFormat("yyyy/MM/dd");
 			String dataFormatada = formatador.format(data);
 			
-			/*
-			 * 
-			 * chamar saidaProdutoDAO para inserir no bd de movimentacao 
-			 * 
-			 * */
+			int quantidade = Integer.parseInt(request.getParameter("quantidade"));
+			double valorUnitario = Double.parseDouble(request.getParameter("valorUnitario"));
+			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
+			String produto = request.getParameter("produto");
+			
+			EntradaProduto newEP = new EntradaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
+			entradaDAO.insert(newEP);
+			
+			response.sendRedirect("list");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void insertSaida(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		try {
+			
+			String usuario = "Caio";
+			String tipo = "Saida";
+			Date data = new Date();
+			
+			//Formatando a data para o MySQL aceitar
+			SimpleDateFormat formatador = new SimpleDateFormat("yyyy/MM/dd");
+			String dataFormatada = formatador.format(data);
 			
 			int quantidade = Integer.parseInt(request.getParameter("quantidade"));
 			double valorUnitario = Double.parseDouble(request.getParameter("valorUnitario"));
 			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
 			String produto = request.getParameter("produto");
 			
-			Estoque newEstoque = new Estoque(produto, valorUnitario, quantidade, valorTotal);
-			estoqueDAO.insert(newEstoque);
-			
 			SaidaProduto newSP = new SaidaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
 			saidaDAO.insert(newSP);
 			
 			response.sendRedirect("list");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

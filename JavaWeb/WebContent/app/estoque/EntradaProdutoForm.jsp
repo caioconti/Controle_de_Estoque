@@ -70,7 +70,7 @@
 				<form action="<%=path%>/entradaproduto/update" method="post">
 			</c:if>
 			<c:if test="${entradaproduto == null}">
-				<form action="<%=path%>/estoque/insert" method="post">
+				<form action="<%=path%>/estoque/insertentrada" method="post">
 			</c:if>
 			
 			<c:if test="${entradaproduto != null}">

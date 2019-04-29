@@ -15,6 +15,7 @@ import usf.model.produto.Produto;
 import usf.model.produto.ProdutoDAO;
 
 public class ProdutoServlet extends HttpServlet{
+	
 	private static final long serialVersionUID = 1L;
 	private ProdutoDAO produtoDAO = null;
 	
@@ -32,6 +33,7 @@ public class ProdutoServlet extends HttpServlet{
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		
 		String action = ((HttpServletRequest) request).getPathInfo();
 		//String action = request.getServletPath();
 		
@@ -119,12 +121,12 @@ public class ProdutoServlet extends HttpServlet{
 	private void insert(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
 			String nome = request.getParameter("nome");
+			double valorCompra = Double.parseDouble(request.getParameter("valorCompra"));
+			double valorVenda = Double.parseDouble(request.getParameter("valorVenda"));
 			String descricao = request.getParameter("descricao");
 			String fornecedor = request.getParameter("fornecedor");
 			
-			System.out.print(nome + descricao + fornecedor);
-			
-			Produto newProduto = new Produto(nome, descricao, fornecedor);
+			Produto newProduto = new Produto(nome, valorCompra, valorVenda, descricao, fornecedor);
 			produtoDAO.insert(newProduto);
 			response.sendRedirect("list");
 		} catch (IOException e) {
@@ -136,10 +138,12 @@ public class ProdutoServlet extends HttpServlet{
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
 			String nome = request.getParameter("nome");
+			double valorCompra = Double.parseDouble(request.getParameter("valorCompra"));
+			double valorVenda = Double.parseDouble(request.getParameter("valorVenda"));
 			String descricao = request.getParameter("descricao");
 			String fornecedor = request.getParameter("fornecedor");
 			
-			Produto produto = new Produto(id, nome, descricao, fornecedor);
+			Produto produto = new Produto(id, nome, valorVenda, valorCompra, descricao, fornecedor);
 			produtoDAO.update(produto);
 			response.sendRedirect("list");
 		} catch (IOException e) {

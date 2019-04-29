@@ -68,22 +68,12 @@
 				<form action="<%=path%>/saidaproduto/update" method="post">
 			</c:if>
 			<c:if test="${saidaproduto == null}">
-				<form action="<%=path%>/estoque/insert" method="post">
+				<form action="<%=path%>/estoque/insertsaida" method="post">
 			</c:if>
 			
 			<c:if test="${saidaproduto != null}">
 				<input type="hidden" name="id" value="<c:out value='${saidaproduto.id}' />" />
 			</c:if>
-			
-			<div class="form-group text-white">
-				<label for="inputTipo">Tipo: </label>
-				<input type="text" name="tipo" readonly="readonly" class="form-control" id="inputTipo" value="Saída" />
-			</div>
-				
-			<div class="form-group text-white">
-				<label for="inputData">Data: </label> 
-				<input type="date" name="data" class="form-control" id="inputData" placeholder="Data" value="<c:out value='${produto.data}' />" required />
-			</div>
 			
 			<div class="form-group text-white">
 				<label for="inputDescricao">Produto: </label> 
@@ -127,30 +117,6 @@
 			<div class="form-group text-white">
 				<label for="inputValorTotal">Valor Total: </label> 
 				<input type="number" step="any" min="0" name="valorTotal" class="form-control" id="inputValorTotal" placeholder="Valor Total" value="<c:out value='${produto.valorTotal}' />" required />
-			</div>
-			
-			<div class="form-group text-white">
-				<label for="inputDescricao">Usuário: </label> 
-				<select class="form-control" name="usuario" required>
-					<c:if test="${saidaproduto != null}">
-						<option><c:out value='${saidaproduto.usuario}' /></option>
-					</c:if>
-					<c:if test="${saidaproduto == null}">
-						<option selected>SELECIONE O USUÁRIO</option>
-					</c:if>
-					<%
-						UsuarioDAO usuarioDAO = new UsuarioDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
-						List<ModelBasic> listUsuario = usuarioDAO.listAll();
-						for (int i = 0; i < listUsuario.size(); i++) {
-							String nome = ((Usuario)listUsuario.get(i)).getNome();
-					%>	
-						<option value="<%=nome%>"><%=nome%></option>
-					<%
-						}
-						
-						request.getAttribute("");
-					%>
-				</select>
 			</div>
 			
 			<div class="form-group botoes text-white">

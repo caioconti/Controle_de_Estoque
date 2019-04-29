@@ -96,13 +96,13 @@
 							<c:out value="${list.produto}" />
 						</td>
 						<td scope='row' style="width: 100px; text-align: center">
-							<c:out value="${list.valorUnitario}" />
+							R$ <c:out value="${list.valorUnitario}" />
 						</td>
 						<td scope='row' style="width: 50px; text-align: center">
-							<c:out value="${list.quantidade}" />
+							<c:out value="${list.quantidade}" /> UN
 						</td>
 						<td scope='row' style="width: 100px; text-align: center">
-							<c:out value="${list.valorTotal}" />
+							R$ <c:out value="${list.valorTotal}" />
 						</td>
 						<td scope='row' style="width: 150px; text-align: center">
 							<c:out value="${list.usuario}" />

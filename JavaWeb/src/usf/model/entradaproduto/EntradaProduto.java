@@ -3,12 +3,12 @@ package usf.model.entradaproduto;
 import usf.model.basic.ModelBasic;
 
 public class EntradaProduto implements ModelBasic {
+	
 	protected int id;
 	protected String tipo;
 	protected String data;
 	protected String usuario;
 	protected String produto;
-	protected String fornecedor;
 	protected int quantidade;
 	protected double valorUnitario;
 	protected double valorTotal;
@@ -20,19 +20,18 @@ public class EntradaProduto implements ModelBasic {
 		this.id = id;
 	}
 	
-	public EntradaProduto(String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
+	public EntradaProduto(String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String usuario) {
 		this.tipo = tipo;
 		this.data = data;
 		this.usuario = usuario;
 		this.produto = produto;
-		this.fornecedor = fornecedor;
 		this.quantidade = quantidade;
 		this.valorUnitario = valorUnitario;
 		this.valorTotal = valorTotal;
 	}
 
-	public EntradaProduto(int id, String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String fornecedor, String usuario) {
-		this(tipo, data, produto, valorUnitario, quantidade, valorTotal, fornecedor, usuario);
+	public EntradaProduto(int id, String tipo, String data, String produto, double valorUnitario, int quantidade, double valorTotal, String usuario) {
+		this(tipo, data, produto, valorUnitario, quantidade, valorTotal, usuario);
 		this.id = id;
 		
 	}
@@ -63,13 +62,6 @@ public class EntradaProduto implements ModelBasic {
 	}
 	public void setProduto(String produto) {
 		this.produto = produto;
-	}
-	
-	public String getFornecedor() {
-		return fornecedor;
-	}
-	public void setFornecedor(String fornecedor) {
-		this.fornecedor = fornecedor;
 	}
 	
 	public int getQuantidade() {

@@ -3,14 +3,15 @@ package usf.model.saidaproduto;
 import usf.model.basic.ModelBasic;
 
 public class SaidaProduto implements ModelBasic {
+	
 	protected int id;
 	protected String tipo;
 	protected String data;
-	protected String usuario;
 	protected String produto;
-	protected int quantidade;
 	protected double valorUnitario;
+	protected int quantidade;
 	protected double valorTotal;
+	protected String usuario;
 	
 	public SaidaProduto() {
 	}

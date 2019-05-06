@@ -1,16 +1,16 @@
 package usf.model.usuario;
 
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import usf.model.basic.BasicDAO;
 import usf.model.basic.ModelBasic;
 
-public class UsuarioDAO extends BasicDAO{
+public class UsuarioDAO extends BasicDAO {
 
 	public UsuarioDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super(jdbcURL, jdbcUsername, jdbcPassword);
@@ -23,6 +23,7 @@ public class UsuarioDAO extends BasicDAO{
 
 	@Override
 	public boolean insert(ModelBasic model) throws SQLException {
+		
 		Usuario usuario = (Usuario) model;
 		
 		//Inserindo no banco de dados
@@ -65,7 +66,7 @@ public class UsuarioDAO extends BasicDAO{
 			String telefone = resultSet.getString("telefone");
 			String email = resultSet.getString("email");
 			String login = resultSet.getString("login");
-			String senha = resultSet.getString("senha");
+			String senha = Usuario.getPassword(resultSet.getString("senha"), ILogin.SHA_256);
 			
 			Usuario usuario = new Usuario(id, nome, telefone, email, login, senha);
 			listUsuario.add(usuario);
@@ -187,4 +188,24 @@ public class UsuarioDAO extends BasicDAO{
 		
 		return usuario;
 	}
+	
+	public boolean autentica(Usuario usuario) throws SQLException {
+		
+		String sql = "SELECT * FROM usuario WHERE login = ? and senha = ? ";
+		
+		connect();
+
+		PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+		statement.setString(1, usuario.getLogin());
+		statement.setString(2, Usuario.getPassword(usuario.getSenha(), ILogin.SHA_256));
+		
+		ResultSet resultSet = statement.executeQuery();
+
+		if (resultSet.next()) {
+			return true;
+		}
+		
+		return false;
+	}
+
 }

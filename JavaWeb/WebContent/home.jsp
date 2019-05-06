@@ -6,7 +6,6 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>CCSEstoque - Controle de Estoque</title>
-	<link rel="stylesheet" href="../../style.css">
 	<style>
 		body {
 			background: #9777da !important;
@@ -38,6 +37,12 @@
 </head>
 <%
 	String path = this.getServletContext().getContextPath();
+
+	String usuario = (String) session.getAttribute("usuario");
+	if(usuario == null) {
+		response.sendRedirect("index.jsp");
+	}
+	
 %>
 <body>
 	<header>
@@ -77,10 +82,8 @@
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 </body>
 </html>

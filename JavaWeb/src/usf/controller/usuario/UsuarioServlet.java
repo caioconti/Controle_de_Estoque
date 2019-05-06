@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.Session;
+
 import usf.model.basic.ModelBasic;
 import usf.model.usuario.Usuario;
 import usf.model.usuario.UsuarioDAO;
@@ -65,13 +67,18 @@ public class UsuarioServlet extends HttpServlet{
 				break;
 			case "/search" :
 				searchUsuario(request, response);
-				break;	
+				break;
+			case "/aut" :
+				autentica(request, response);
+				break;
 			default:
 				listUsuario(request, response);
 				break;
 			}
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 		
@@ -161,5 +168,41 @@ public class UsuarioServlet extends HttpServlet{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void autentica(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+			
+			
+			if(login != null && senha != null && !login.isEmpty() && !senha.isEmpty()) {
+				
+				Usuario usuario = new Usuario(login, senha);
+				
+				if (usuarioDAO.autentica(usuario)) {
+					
+					System.out.println(usuario.getLogin() + "  " + usuario.getSenha());
+					
+					Session session = (Session) request.getSession();
+					session.getSession().setAttribute("usuario", true);
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
+					dispatcher.forward(request, response);
+					
+				} else {
+					throw new Error("Usuário inválido!");
+				}
+				
+			} else {
+				throw new Error("Usuário inválido!");
+			}
+						
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

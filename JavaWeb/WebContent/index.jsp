@@ -52,14 +52,14 @@
 		<div class="bemvindo">
 			<p class="texto-branco">Bem-Vindo</p>
 		</div>
-		<form>
+		<form action="usuario/aut" method="POST" >
 			<div class="form-group">
-		    	<label class="texto-branco" for="Login">Login</label>
-		    	<input type="text" class="form-control" id="Login" placeholder="Login">
+		    	<label class="texto-branco" for="Login">Login: </label>
+		    	<input type="text" name="login" class="form-control" id="Login" placeholder="Login">
 		  	</div>
 		  	<div class="form-group">
-		   		<label class="texto-branco" for="Senha">Senha</label>
-		    	<input type="password" class="form-control" id="Senha" placeholder="Senha">
+		   		<label class="texto-branco" for="Senha">Senha: </label>
+		    	<input type="password" name="senha" class="form-control" id="Senha" placeholder="Senha">
 		  	</div>
 		  	<button type="submit" class="btn btn-success botao-login">Entrar</button>
 		</form>

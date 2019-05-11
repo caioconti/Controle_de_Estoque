@@ -1,3 +1,4 @@
+<%@page import="usf.model.usuario.Usuario"%>
 <%@page import="usf.model.basic.ModelBasic"%>
 <%@page import="usf.model.fornecedor.Fornecedor"%>
 <%@page import="java.util.List"%>
@@ -42,6 +43,13 @@
 </head>
 <%
 	String path = this.getServletContext().getContextPath();
+
+	HttpSession usuario =  request.getSession();
+	Usuario login = (Usuario) usuario.getAttribute("usuario");
+	if(login == null) {
+		response.sendRedirect("../../index.jsp");
+	}
+
 %>
 <body>
 	<header>

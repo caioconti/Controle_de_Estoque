@@ -173,6 +173,7 @@ public class UsuarioDAO extends BasicDAO {
 		ResultSet resultSet = statement.executeQuery();
 		
 		if (resultSet.next()) {
+			
 			String nome = resultSet.getString("nome");
 			String telefone = resultSet.getString("telefone");
 			String email = resultSet.getString("email");
@@ -184,6 +185,35 @@ public class UsuarioDAO extends BasicDAO {
 		
 		resultSet.close();
 		statement.close();
+		disconnect();
+		
+		return usuario;
+	}
+	
+	public ModelBasic retornaDados(String login) throws SQLException {
+		Usuario usuario = null;
+		
+		String sql = "SELECT * FROM usuario WHERE login = ?";
+		connect();
+		
+		PreparedStatement st = jdbcConnection.prepareStatement(sql);
+		st.setString(1, login);
+		
+		ResultSet rs = st.executeQuery();
+		
+		if (rs.next()) {
+			
+			int id = rs.getInt("id");
+			String nome = rs.getString("nome");
+			String telefone = rs.getString("telefone");
+			String email = rs.getString("email");
+			String senha = rs.getString("senha");
+			
+			usuario = new Usuario(id, nome, telefone, email, login, senha);
+		}
+		
+		rs.close();
+		st.close();
 		disconnect();
 		
 		return usuario;

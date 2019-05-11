@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import usf.model.basic.ModelBasic;
 import usf.model.entradaproduto.EntradaProduto;
@@ -19,12 +20,15 @@ import usf.model.estoque.Estoque;
 import usf.model.estoque.EstoqueDAO;
 import usf.model.saidaproduto.SaidaProduto;
 import usf.model.saidaproduto.SaidaProdutoDAO;
+import usf.model.usuario.Usuario;
+import usf.model.usuario.UsuarioDAO;
 
 public class EstoqueServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private EstoqueDAO estoqueDAO = null;
 	private SaidaProdutoDAO saidaDAO = null;
 	private EntradaProdutoDAO entradaDAO = null;
+	private UsuarioDAO usuarioDAO = null;
 	
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -35,6 +39,7 @@ public class EstoqueServlet extends HttpServlet{
 		estoqueDAO = new EstoqueDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 		saidaDAO = new SaidaProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 		entradaDAO = new EntradaProdutoDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
+		usuarioDAO = new UsuarioDAO(jdbcURL, jdbcUsername, jdbcPassword, jdbcDriver);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -137,7 +142,12 @@ public class EstoqueServlet extends HttpServlet{
 	private void insertEntrada(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
 			
-			String usuario = "Caio";
+			//Pegando o login da sessão
+			Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+			
+			//Pegando os dados do usuário da sessão
+			Usuario usuarioLogin = (Usuario) usuarioDAO.retornaDados(usuario.getLogin());
+			
 			String tipo = "Entrada";
 			Date data = new Date();
 			
@@ -150,7 +160,7 @@ public class EstoqueServlet extends HttpServlet{
 			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
 			String produto = request.getParameter("produto");
 			
-			EntradaProduto newEP = new EntradaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
+			EntradaProduto newEP = new EntradaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuarioLogin.getNome());
 			entradaDAO.insert(newEP);
 			
 			response.sendRedirect("list");
@@ -163,7 +173,12 @@ public class EstoqueServlet extends HttpServlet{
 	private void insertSaida(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		try {
 			
-			String usuario = "Caio";
+			//Pegando o login da sessão
+			Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+			
+			//Pegando os dados do usuário da sessão
+			Usuario usuarioLogin = (Usuario) usuarioDAO.retornaDados(usuario.getLogin());
+			
 			String tipo = "Saida";
 			Date data = new Date();
 			
@@ -176,7 +191,7 @@ public class EstoqueServlet extends HttpServlet{
 			double valorTotal = Double.parseDouble(request.getParameter("valorTotal"));
 			String produto = request.getParameter("produto");
 			
-			SaidaProduto newSP = new SaidaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuario);
+			SaidaProduto newSP = new SaidaProduto(tipo, dataFormatada, produto, valorUnitario, quantidade, valorTotal, usuarioLogin.getNome());
 			saidaDAO.insert(newSP);
 			
 			response.sendRedirect("list");

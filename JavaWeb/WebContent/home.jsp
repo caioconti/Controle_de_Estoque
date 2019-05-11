@@ -1,3 +1,4 @@
+<%@page import="usf.model.usuario.Usuario"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -38,8 +39,11 @@
 <%
 	String path = this.getServletContext().getContextPath();
 
-	String usuario = (String) session.getAttribute("usuario");
-	if(usuario == null) {
+	HttpSession usuario =  request.getSession();
+	
+	Usuario nome = (Usuario) usuario.getAttribute("usuario");
+	
+	if(nome == null) {
 		response.sendRedirect("index.jsp");
 	}
 	
@@ -52,7 +56,7 @@
 				id="navbarNavDropdown">
 				<ul class="navbar-nav">
 					<li class="nav-item"><a
-						class="nav-link text-white btn btn-danger botao-sair" href="#">Sair</a>
+						class="nav-link text-white btn btn-danger botao-sair" href="<%=path %>/usuario/des">Sair</a>
 					</li>
 				</ul>
 			</div>

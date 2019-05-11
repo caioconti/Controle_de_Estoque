@@ -45,11 +45,18 @@
 </head>
 <%
 	String path = this.getServletContext().getContextPath();
+
+	HttpSession usuario =  request.getSession();
+	Usuario login = (Usuario) usuario.getAttribute("usuario");
+	if(login == null) {
+		response.sendRedirect("../../index.jsp");
+	}
+
 %>
 <body>
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-			<a class="navbar-link text-white btn btn-outline-primary" href="../entradaproduto/list">Voltar</a>
+			<a class="navbar-link text-white btn btn-outline-primary" href="../estoque/list">Voltar</a>
 		</nav>
 	</header>
 

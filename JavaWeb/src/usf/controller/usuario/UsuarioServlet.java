@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
 
@@ -70,6 +71,9 @@ public class UsuarioServlet extends HttpServlet{
 				break;
 			case "/aut" :
 				autentica(request, response);
+				break;
+			case "/des" :
+				deslogar(request, response);
 				break;
 			default:
 				listUsuario(request, response);
@@ -174,30 +178,34 @@ public class UsuarioServlet extends HttpServlet{
 		
 		try {
 			
+			//Pegando login e senha digitados
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
 			
-			
+			//Testa se foi colocado um login e senha, caso não tenha passa direto para o else
 			if(login != null && senha != null && !login.isEmpty() && !senha.isEmpty()) {
-				
+			
 				Usuario usuario = new Usuario(login, senha);
 				
+				//Verifica se o login e senha constam no BD
 				if (usuarioDAO.autentica(usuario)) {
+				
+					//Criando uma sessão para o usuario	
+					HttpSession session =  request.getSession();
+					session.setAttribute("usuario", usuario);
 					
-					System.out.println(usuario.getLogin() + "  " + usuario.getSenha());
-					
-					Session session = (Session) request.getSession();
-					session.getSession().setAttribute("usuario", true);
-					
+					//Redirecionando para a tela principal depois de criar uma sessão
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
 					dispatcher.forward(request, response);
-					
-				} else {
-					throw new Error("Usuário inválido!");
-				}
 				
+				//Se não constarem no BD, redireciona para a pagina de login
+				} else {
+					response.sendRedirect("../index.jsp");
+				}
+			
+			//Se não houver login e senha, redireciona para a pagina de login	
 			} else {
-				throw new Error("Usuário inválido!");
+				response.sendRedirect("../index.jsp");
 			}
 						
 		} catch (IOException e) {
@@ -205,4 +213,12 @@ public class UsuarioServlet extends HttpServlet{
 		}
 		
 	}
+	
+	private void deslogar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//Destruindo a sessão atual
+		HttpSession session = request.getSession();
+		session.invalidate();
+		response.sendRedirect("../index.jsp");
+	}
+	
 }

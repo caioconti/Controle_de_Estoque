@@ -1,14 +1,13 @@
 <%@page import="usf.model.usuario.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>CCSEstoque - Produto</title>
-	<link rel="stylesheet" href="../../style.css">
 	<style>
 		body {
 			background: #9777da;
@@ -38,6 +37,13 @@
 		
 		.botao-busca {
 			margin-bottom: 4px;
+		}
+		th {
+			text-align: center;
+		}
+		td {
+			text-align: center;
+			max-width: 250px;
 		}
 	</style>
 </head>
@@ -85,36 +91,36 @@
 						<th scope='col'>Nome</th>
 						<th scope='col'>Valor Compra</th>
 						<th scope='col'>Valor Venda</th>
-						<th scope='col'>Descrição</th>
+						<th scope='col'>DescriÃ§Ã£o</th>
 						<th scope='col'>Fornecedor</th>
-						<th scope='col' colspan="2" class='texto-centro'>Opções</th>
+						<th scope='col' colspan="2" class='texto-centro'>OpÃ§Ãµes</th>
 					</tr>
 				</thead>
 
 
 				<c:forEach var="produto" items="${listProduto}">
 					<tr>
-						<td scope='row' style="width: 150px">
+						<td scope='row'>
 							<c:out value="${produto.nome}" />
 						</td>
-						<td scope='row' style="width: 100px">
+						<td scope='row'>
 							R$ <c:out value="${produto.valorCompra}" />
 						</td>
-						<td scope='row' style="width: 100px">
+						<td scope='row'>
 							R$ <c:out value="${produto.valorVenda}" />
 						</td>
-						<td scope='row' style="width: 200px">
+						<td scope='row' style="text-align: justify;">
 							<c:out value="${produto.descricao}" />
 						</td>
-						<td scope='row' style="width: 150px">
+						<td scope='row'>
 							<c:out value="${produto.fornecedor}" />
 						</td>
-						<td scope='row' style="width: 30px" align="center" class='texto-centro'>
+						<td scope='row' class='texto-centro'>
 							<a href="../produto/edit?id=<c:out value='${produto.id}' />">
 								<i class='material-icons' style='color: grey'>create</i>
 							</a>
 						</td>
-						<td scope='row' style="width: 30px" align="center" class='texto-centro'>
+						<td scope='row' class='texto-centro'>
 							<a href="../produto/delete?id=<c:out value='${produto.id}' />" data-confirm='Tem certeza que deseja excluir este item?'>
 								<i class='material-icons' style='color: red;'>remove_circle_outline</i>
 							</a>

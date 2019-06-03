@@ -1,13 +1,13 @@
 <%@page import="usf.model.usuario.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>CCSEstoque - Usuário</title>
+	<title>CCSEstoque - UsuÃ¡rio</title>
 	<link rel="stylesheet" href="../../style.css">
 	<style>
 		body {
@@ -73,50 +73,60 @@
 		<br>
 		<div class="modelo-divs bg-dark">
 			<br>
-			<h3 class="texto-centro text-white">Usuários</h3>
+			<h3 class="texto-centro text-white">UsuÃ¡rios</h3>
 			<div class="procurar">
 				<form action="<%=path%>/usuario/search" method="POST">
-					<input class="campo-busca" type="text" name="procurar" placeholder="Buscar usuário..." />
+					<input class="campo-busca" type="text" name="procurar" placeholder="Buscar usuÃ¡rio..." />
 					<button class="botao-busca text-white btn btn-primary" type="submit">Procurar</button>
 				</form>
 			</div>
 			<table class='table table-hover table-dark table-bordered'>
 				<thead>
 					<tr>
-						<th scope='col'>ID</th>
 						<th scope='col'>Nome</th>
 						<th scope='col'>Telefone</th>
 						<th scope='col'>Email</th>
 						<th scope='col'>Login</th>
 						<th scope='col'>Senha</th>
-						<th scope='col' colspan="2" class='texto-centro'>Opções</th>
+						<th scope='col' colspan="2" class='texto-centro'>OpÃ§Ãµes</th>
 					</tr>
 				</thead>
 
 
 				<c:forEach var="usuario" items="${listUsuario}">
 					<tr>
-						<td scope='row' style="width: 10px"><c:out
-								value="${usuario.id}" /></td>
-						<td scope='row' style="width: 200px"><c:out
-								value="${usuario.nome}" /></td>
-						<td scope='row' style="width: 130px"><c:out
-								value="${usuario.telefone}" /></td>
-						<td scope='row' style="width: 200px"><c:out
-								value="${usuario.email}" /></td>
-						<td scope='row' style="width: 100px"><c:out
-								value="${usuario.login}" /></td>
-						<td scope='row' style="width: 100px"><c:out
-								value="${usuario.senha}" /></td>
-						<td scope='row' style="width: 30px" align="center"
-							class='texto-centro'><a
-							href="../usuario/edit?id=<c:out value='${usuario.id}' />"><i
-								class='material-icons' style='color: grey'>create</i></a></td>
-						<td scope='row' style="width: 30px" align="center"
-							class='texto-centro'><a
-							href="../usuario/delete?id=<c:out value='${usuario.id}' />"
-							data-confirm='Tem certeza que deseja excluir este item?'><i
-								class='material-icons' style='color: red;'>remove_circle_outline</i></a></td>
+						<td scope='row' style="width: 180px">
+							<c:out value="${usuario.nome}" />
+						</td>
+						
+						<td scope='row' style="width: 150px">
+							<c:out value="${usuario.telefone}" />
+						</td>
+						
+						<td scope='row' style="width: 200px">
+							<c:out value="${usuario.email}" />
+						</td>
+						
+						<td scope='row' style="width: 100px">
+							<c:out value="${usuario.login}" />
+						</td>
+						
+						<td scope='row' style="width: 100px">
+							<c:out value="${usuario.senha}" />
+						</td>
+						
+						<td scope='row' style="width: 30px" align="center" class='texto-centro'>
+							<a href="../usuario/edit?id=<c:out value='${usuario.id}' />">
+								<i class='material-icons' style='color: grey'>create</i>
+							</a>
+						</td>
+						
+						<td scope='row' style="width: 30px" align="center" class='texto-centro'>
+							<a href="../usuario/delete?id=<c:out value='${usuario.id}' />" 
+							   data-confirm='Tem certeza que deseja excluir este item?'>
+								<i class='material-icons' style='color: red;'>remove_circle_outline</i>
+							</a>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>

@@ -1,13 +1,13 @@
 <%@page import="usf.model.usuario.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>CCSEstoque - Usuário</title>
+	<title>CCSEstoque - UsuÃ¡rio</title>
 	<style>
 		body {
 			background: #9777da;
@@ -58,10 +58,10 @@
 			<br>
 			<h3>
 				<c:if test="${usuario != null}">
-					<p>Editar usuário</p>
+					<p>Editar usuÃ¡rio</p>
 				</c:if>
 				<c:if test="${usuario == null}">
-					<p>Adicionar usuário</p>
+					<p>Adicionar usuÃ¡rio</p>
 				</c:if>
 			</h3>
 			<br>

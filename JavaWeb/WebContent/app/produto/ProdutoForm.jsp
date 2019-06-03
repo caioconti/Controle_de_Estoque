@@ -3,13 +3,13 @@
 <%@page import="usf.model.fornecedor.Fornecedor"%>
 <%@page import="java.util.List"%>
 <%@page import="usf.model.fornecedor.FornecedorDAO"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pacifico|Roboto+Slab:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -91,17 +91,17 @@
 				
 				<div class="form-group text-white">
 					<label for="inputCompra">Valor de Compra: </label> 
-					<input type="number" step="any" min="0" name="valorCompra" class="form-control" id="inputCompra" placeholder="Valor unitário de compra" value="<c:out value='${produto.valorCompra}' />" required />
+					<input type="number" step="any" min="0" name="valorCompra" class="form-control" id="inputCompra" placeholder="Valor unitÃ¡rio de compra" value="<c:out value='${produto.valorCompra}' />" required />
 				</div>
 				
 				<div class="form-group text-white">
 					<label for="inputVenda">Valor de Venda: </label> 
-					<input type="number" step="any" min="0" name="valorVenda" class="form-control" id="inputVenda" placeholder="Valor unitário de venda" value="<c:out value='${produto.valorVenda}' />" required />
+					<input type="number" step="any" min="0" name="valorVenda" class="form-control" id="inputVenda" placeholder="Valor unitÃ¡rio de venda" value="<c:out value='${produto.valorVenda}' />" required />
 				</div>
 				
 				<div class="form-group text-white">
-					<label for="inputDescricao">Descrição: </label> 
-					<input type="text" name="descricao" class="form-control" id="inputDescricao" placeholder="Descrição" value="<c:out value='${produto.descricao}' />" required />
+					<label for="inputDescricao">DescriÃ§Ã£o: </label> 
+					<input type="text" name="descricao" class="form-control" id="inputDescricao" placeholder="DescriÃ§Ã£o" value="<c:out value='${produto.descricao}' />" required />
 				</div>
 				
 				<div class="form-group text-white">

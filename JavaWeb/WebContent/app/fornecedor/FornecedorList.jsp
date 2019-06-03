@@ -1,10 +1,10 @@
 <%@page import="usf.model.usuario.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>CCSEstoque - Fornecedor</title>
@@ -81,20 +81,16 @@
 			<table class='table table-hover table-dark table-bordered'>
 				<thead>
 					<tr>
-						<th scope='col'>ID</th>
 						<th scope='col'>Nome</th>
 						<th scope='col'>Telefone</th>
 						<th scope='col'>Email</th>
 						<th scope='col'>CNPJ</th>
 						<th scope='col'>Cidade</th>
-						<th scope='col' colspan="2" class='texto-centro'>Opções</th>
+						<th scope='col' colspan="2" class='texto-centro'>OpÃ§Ãµes</th>
 					</tr>
 				</thead>
 				<c:forEach var="fornecedor" items="${listFornecedor}">
 					<tr>
-						<td scope='row' style="width: 10px">
-							<c:out value="${fornecedor.id}" />
-						</td>
 						<td scope='row' style="width: 300px">
 							<c:out value="${fornecedor.nome}" />
 						</td>
@@ -116,7 +112,8 @@
 							</a>
 						</td>
 						<td scope='row' align="center" class='texto-centro' style="width: 30px">
-							<a href="../fornecedor/delete?id=<c:out value='${fornecedor.id}' />" data-confirm='Tem certeza que deseja excluir este item?'>
+							<a href="../fornecedor/delete?id=<c:out value='${fornecedor.id}' />" 
+							   data-confirm='Tem certeza que deseja excluir este item?'>
 								<i class='material-icons' style='color: red;'>remove_circle_outline</i>
 							</a>
 						</td>

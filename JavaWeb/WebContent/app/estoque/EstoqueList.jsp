@@ -1,13 +1,13 @@
 <%@page import="usf.model.usuario.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>CCS - Estoque </title>
+	<title>CCSEstoque - Estoque </title>
 	<style>
 		body {
 			background: #9777da;
@@ -58,7 +58,7 @@
 						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/newEntrada">Incluir Entrada</a>
 					</li>
 					<li>
-						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/newSaida">Incluir Saída</a>
+						<a class="nav-link text-white btn btn-primary botao" href="<%=path%>/estoque/newSaida">Incluir SaÃ­da</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link text-white btn btn-danger" href="../home.jsp">Voltar</a>

@@ -6,16 +6,16 @@
 <%@page import="usf.model.basic.ModelBasic"%>
 <%@page import="java.util.List"%>
 <%@page import="usf.model.produto.ProdutoDAO"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Pacifico|Roboto+Slab:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<title>Insert title here</title>
+	<title>CCSEstoque - Entrada de Produto</title>
 	<style>
 		body {
 			background: #9777da;
@@ -103,29 +103,29 @@
 						List<ModelBasic> listProduto = produtoDAO.listAll();
 						for (int i = 0; i < listProduto.size(); i++) {
 							String nome = ((Produto)listProduto.get(i)).getNome();
+							
 					%>	
 						<option value="<%=nome%>"><%=nome%></option>
 					<%
 						}
-						
 						request.getAttribute("");
 					%>
 				</select>
 			</div>
 			
 			<div class="form-group text-white">
-				<label for="inputValorUnitario">Valor UN: </label> 
+				<label for="inputValorUnitario">Valor UN: </label>
 				<input type="number" step="any" min="0" name="valorUnitario" class="form-control" id="inputValorUnitario" placeholder="Valor UN" value="<c:out value='${produto.valorUnitario}' />" required />
 			</div>
 			
 			<div class="form-group text-white">
 				<label for="inputQuantidade">Quantidade: </label> 
-				<input type="number" name="quantidade" class="form-control" id="inputQuantidade" placeholder="Quantidade" value="<c:out value='${produto.quantidade}' />" required />
+				<input type="number" name="quantidade" class="form-control" id="inputQuantidade" placeholder="Quantidade" oninput="calculo()" value="<c:out value='${produto.quantidade}' />" required />
 			</div>
 			
 			<div class="form-group text-white">
 				<label for="inputValorTotal">Valor Total: </label> 
-				<input type="number" step="any" min="0" name="valorTotal" class="form-control" id="inputValorTotal" placeholder="Valor Total" value="<c:out value='${produto.valorTotal}' />" required />
+				<input type="number" step="any" min="0" name="valorTotal" class="form-control" id="inputValorTotal" placeholder="Valor Total"  readonly value="<c:out value='${produto.valorTotal}' />" required />
 			</div>
 			
 			<div class="form-group botoes text-white">
@@ -138,9 +138,17 @@
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function calculo(){
+			var valorUn = document.getElementById("inputValorUnitario").value;
+			var quantidade = document.getElementById("inputQuantidade").value;
+			var x = (valorUn * quantidade);
+			
+			document.getElementById("inputValorTotal").value = x;
+			console.log(x);
+		}
+	</script>	
 </body>
 </html>

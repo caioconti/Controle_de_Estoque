@@ -1,9 +1,9 @@
 <%@page import="usf.model.usuario.Usuario"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="PT-BR">
 <head>
-	<meta charset="ISO-8859-1">
+	<meta charset="UTF-8">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<title>CCSEstoque - Controle de Estoque</title>
@@ -72,7 +72,7 @@
 				<a href="<%=path %>/fornecedor/list"><div class="bg-dark">Fornecedores</div></a>
 			</div>
 			<div class="col-4">
-				<a href="<%=path %>/usuario/list"><div class="bg-dark">Usuários</div></a>
+				<a href="<%=path %>/usuario/list"><div class="bg-dark">UsuÃ¡rios</div></a>
 			</div>
 		</div>
 		<div class="row bloco">
@@ -80,7 +80,7 @@
 				<a href="<%=path %>/estoque/list"><div class="bg-dark">Estoque</div></a>
 			</div>
 			<div class="col-4">
-				<a href="<%=path %>/estoque/movi"><div class="bg-dark">Movimentação</div></a>
+				<a href="<%=path %>/estoque/movi"><div class="bg-dark">MovimentaÃ§Ã£o</div></a>
 			</div>
 		</div>
 	</div>

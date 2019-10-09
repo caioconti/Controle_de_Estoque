@@ -1,1 +1,1 @@
-Trabalho interdisciplinar sob monitoria do professor Rodrigo Luis Nolli Brossi, neste projeto foi desenvolvido um controle de estoque.
+Trabalho interdisciplinar sob monitoria do professor Rodrigo Luis Nolli Brossi, neste projeto foi desenvolvido um cadastro para produtos, fornecedores e usuarios e um controle de entradas e saídas de produtos
